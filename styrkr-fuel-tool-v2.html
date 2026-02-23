@@ -1,0 +1,3784 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STYRKR — Fuel Tool</title>
+  <style>
+    /* ── REAL STYRKR FONT STACK ── */
+    @font-face {
+      font-family: "SuisseIntl";
+      font-weight: 700;
+      src: url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/SuisseIntl-Bold.woff2?v=1692899005') format('woff2'),
+           url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/SuisseIntl-Bold.woff?v=1692899005') format('woff');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "SuisseIntl";
+      font-weight: 600;
+      src: url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/suisseintl-semibold.woff2?v=1741028257') format('woff2'),
+           url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/suisseintl-semibold.woff?v=1741028257') format('woff');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HelveticaNeue-Medium";
+      font-weight: 400;
+      src: url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue_8ffe98f1-45c2-4c14-8534-8f8833112ab4.woff2?v=1741027037') format('woff2'),
+           url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue_7c531740-36ee-442a-ba1c-7ca72d5b1c78.woff?v=1741027037') format('woff');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HelveticaNeue-Medium";
+      font-weight: 500;
+      src: url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue-medium.woff2?v=1692899005') format('woff2'),
+           url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue-medium.woff?v=1692899005') format('woff');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "HelveticaNeue-Medium";
+      font-weight: 600;
+      src: url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue-bold.woff2?v=1692904131') format('woff2'),
+           url('https://cdn.shopify.com/s/files/1/0551/0388/1250/files/helveticaneue-bold.woff?v=1692904131') format('woff');
+      font-display: swap;
+    }
+
+    /* ── STYRKR DESIGN TOKENS — exact match to layout.liquid ── */
+    :root {
+      /* Core palette */
+      --black:                    #1d1d1b;
+      --white:                    #fefefe;
+      --light-grey:               #f8f8f8;
+      --background-light-grey:    #f6f6f6;   /* matches Shopify var exactly */
+      --border-grey:              #dadada;
+      --mid-grey:                 #949494;
+      --text-grey:                #898989;
+      --cream:                    #faf9f6;
+      --styrkr-black:             #1d1d1b;
+      --styrkr-green:             #4dcdc6;
+      --styrkr-orange:            #E97424;
+      --sale:                     #E97424;   /* from settings.sale_colour */
+
+      /* Aliases used throughout this file */
+      --green:   var(--styrkr-green);
+      --orange:  var(--styrkr-orange);
+      --bg-grey: var(--background-light-grey);
+
+      --font-head: "SuisseIntl", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-body: "HelveticaNeue-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+
+      --max: 1280px;
+      --r-sm: 10px;
+      --r-md: 16px;
+      --r-lg: 30px;  /* matches 30px border-radius used throughout */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      background: var(--white);
+      color: var(--black);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--black); text-decoration: none; }
+    a:hover { color: var(--green); }
+
+    /* ── SITE HEADER (matches STYRKR nav height/feel) ── */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border-grey);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header__inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .site-header__wordmark {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-right: 28px;
+      flex-shrink: 0;
+    }
+    .site-header__sep {
+      width: 1px;
+      height: 22px;
+      background: var(--border-grey);
+      margin-right: 24px;
+    }
+    .site-header__label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+    }
+    .site-header__nav {
+      display: flex;
+      gap: 2px;
+      margin-left: auto;
+      align-items: center;
+    }
+    .nav-tab {
+      appearance: none;
+      border: none;
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--mid-grey);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 140ms, background 140ms;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { color: var(--black); background: var(--bg-grey); }
+    .nav-tab.is-active {
+      background: var(--black);
+      color: var(--white);
+    }
+    .nav-tab:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .nav-tab:disabled:hover { background: transparent; color: var(--mid-grey); }
+    .site-header__actions {
+      display: flex;
+      gap: 8px;
+      margin-left: 20px;
+    }
+
+    /* ── HERO BAND (matches collection-header style) ── */
+    .page-hero {
+      background: var(--bg-grey);
+      border-bottom: 1px solid var(--border-grey);
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .page-hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 14px;
+    }
+    .page-hero__title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 58px);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+    .page-hero__title span { color: var(--green); }
+    .page-hero__copy {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-grey);
+      max-width: 52ch;
+      margin: 0 auto;
+    }
+
+    /* ── BUTTONS (match STYRKR .button class) ── */
+    .button,
+    button.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: 2px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      cursor: pointer;
+      transition: background 140ms, color 140ms, border-color 140ms;
+      text-decoration: none;
+      white-space: nowrap;
+      appearance: none;
+    }
+    .button:hover, button.button:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+    .button--outline {
+      background: transparent;
+      color: var(--black);
+    }
+    .button--outline:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+    .button--green {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--black);
+    }
+    .button--green:hover {
+      background: transparent;
+      color: var(--green);
+    }
+    .button--sm {
+      font-size: 11px;
+      padding: 9px 16px;
+    }
+    button:disabled,
+    .button:disabled {
+      opacity: 0.40;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ── LAYOUT ── */
+    .page-content {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .view { display: none; }
+    .view.is-active { display: block; }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 960px) { .tool-grid { grid-template-columns: 1fr; } }
+
+    /* ── CARD / PANEL ── */
+    .card {
+      border: 2px solid var(--black);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      background: var(--white);
+    }
+    .card--grey { background: var(--bg-grey); }
+    .card--soft {
+      border-color: var(--border-grey);
+    }
+    .card__head {
+      padding: 18px 24px 16px;
+      border-bottom: 2px solid var(--black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-grey);
+    }
+    .card--soft .card__head {
+      border-bottom-color: var(--border-grey);
+      background: var(--white);
+    }
+    .card__head h2 {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin: 0;
+    }
+    .card__body { padding: 24px; }
+    .card--sticky { position: relative; }
+    @media (min-width: 960px) { .card--sticky { position: sticky; top: 72px; } }
+
+    /* ── STEPPER ── */
+    .stepper {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .step-btn {
+      appearance: none;
+      border: 1.5px solid var(--border-grey);
+      background: var(--white);
+      color: var(--mid-grey);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: 7px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 140ms;
+    }
+    .step-btn .step-num {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-grey);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      background: var(--white);
+      color: var(--black);
+    }
+    .step-btn:hover {
+      border-color: var(--black);
+      color: var(--black);
+    }
+    .step-btn.is-active {
+      border-color: var(--black);
+      background: var(--black);
+      color: var(--white);
+    }
+    .step-btn.is-active .step-num {
+      border-color: var(--white);
+      background: transparent;
+      color: var(--white);
+    }
+
+    /* ── FORMS ── */
+    .form-grid { display: grid; gap: 18px; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 500px) { .row-2 { grid-template-columns: 1fr; } }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      width: 100%;
+      border: 1.5px solid var(--border-grey);
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 14px;
+      border-radius: var(--r-sm);
+      outline: none;
+      appearance: none;
+      transition: border-color 140ms;
+    }
+    input:focus, select:focus {
+      border-color: var(--black);
+    }
+    select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231d1d1b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    .help {
+      margin-top: 7px;
+      font-size: 12px;
+      color: var(--text-grey);
+      line-height: 1.5;
+    }
+
+    /* ── RANGE ── */
+    .range-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    input[type="range"] {
+      flex: 1;
+      height: 3px;
+      border: none;
+      padding: 0;
+      border-radius: 0;
+      background: var(--border-grey);
+      accent-color: var(--black);
+      cursor: pointer;
+    }
+    input[type="range"]:focus { border-color: transparent; box-shadow: none; }
+    .range-val {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      min-width: 44px;
+      text-align: right;
+    }
+
+    /* ── CHOICE CARDS (plan style) ── */
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+    .choice-card {
+      border: 1.5px solid var(--border-grey);
+      border-radius: var(--r-md);
+      padding: 14px;
+      cursor: pointer;
+      transition: border-color 140ms, background 140ms;
+      background: var(--white);
+    }
+    .choice-card:hover { border-color: var(--black); }
+    .choice-card.is-selected {
+      border-color: var(--black);
+      background: var(--bg-grey);
+    }
+    .choice-card__title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .choice-card.is-selected .choice-card__title { color: var(--green); }
+    .choice-card__desc {
+      font-size: 12px;
+      color: var(--text-grey);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+    .choice-card__tags {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .choice-card__tags span {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      border: 1px solid var(--border-grey);
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
+
+    /* ── STEP PANES ── */
+    .step-pane { display: none; }
+    .step-pane.is-active { display: block; }
+
+    /* ── FORM ACTIONS ── */
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-grey);
+    }
+
+    /* ── STAT CARDS (summary) ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 20px 24px;
+    }
+    .stat-card {
+      border: 1.5px solid var(--border-grey);
+      border-radius: var(--r-md);
+      padding: 16px;
+      background: var(--white);
+    }
+    .stat-card .k {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 6px;
+    }
+    .stat-card .v {
+      font-family: var(--font-head);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--black);
+    }
+    .stat-card .v small {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid-grey);
+    }
+    .stat-card .n {
+      margin-top: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-grey);
+      line-height: 1.5;
+    }
+
+    /* ── SECTION HEADS ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ── TABLE — matches #fuelling-hours + #fuelling-stats from live site ── */
+
+    /* Outer wrapper (optional convenience div) */
+    .tbl-wrap {
+      border: 2px solid var(--black);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+
+    /* ─ fuelling-hours style (rounded top, black border, initial collapse) ─ */
+    table.tbl {
+      width: 100%;
+      border-collapse: initial;
+      border-spacing: 0;
+      font-size: 17px;
+      box-shadow: none;
+    }
+
+    /* Header row */
+    .tbl thead th {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      text-align: left;
+      padding: 14px 30px 12px 40px;
+      background: var(--background-light-grey);
+      border-bottom: 2px solid var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tbl thead th:first-child { padding-left: 40px; }
+    .tbl thead th:last-child  { padding-left: 40px; }
+
+    /* Body rows — alternating white / light-grey */
+    .tbl tbody tr:nth-child(even) { background: var(--white); }
+    .tbl tbody tr:nth-child(odd)  { background: var(--background-light-grey); }
+
+    /* All cells */
+    .tbl td {
+      padding: 10px 30px 10px 0;
+      border-bottom: 1px solid var(--border-grey);
+      vertical-align: middle;
+    }
+    .tbl tbody tr:last-child td { border-bottom: none; padding-bottom: 30px; }
+
+    /* TIME column — black pill, fixed width */
+    .tbl td.tbl-time {
+      width: 215px;
+      padding-left: 0;
+      padding-right: 40px;
+      border-right: 4px solid var(--black);
+    }
+    .tbl td.tbl-time span {
+      display: block;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 37px;
+      height: 37px;
+      border-radius: 999px;
+    }
+    @media screen and (min-width: 64em) {
+      .tbl td.tbl-time span { line-height: 43px; height: 43px; }
+    }
+
+    /* no-fuel row — dashed border */
+    .tbl tr.no-fuel td.tbl-time { border-right-style: dashed; }
+
+    /* PRODUCT column */
+    .tbl td.tbl-product { padding-left: 30px; }
+    @media screen and (min-width: 50em) { .tbl td.tbl-product { padding-left: 40px; } }
+
+    .tbl td.tbl-product a {
+      color: var(--black);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .tbl td.tbl-product a:hover { color: var(--green); }
+
+    /* generic utility classes */
+    .tbl .num  { text-align: right; font-family: var(--font-mono); font-size: 13px; }
+    .tbl .dim  { color: var(--text-grey); font-size: 12px; }
+
+    /* ─ fuelling-stats style (rounded bottom, connects below hours table) ─ */
+    table.tbl-stats {
+      width: 100%;
+      border-collapse: initial;
+      border-spacing: 0;
+      font-size: 15px;
+      border-top: 2px solid var(--black);
+    }
+    table.tbl-stats tbody tr:nth-child(even) { background: var(--white); }
+    table.tbl-stats tbody tr:nth-child(odd)  { background: var(--background-light-grey); }
+    table.tbl-stats td {
+      padding: 11px 18px;
+      border-right: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      font-size: 14px;
+    }
+    table.tbl-stats td:last-child { border-right: none; text-align: right; font-family: var(--font-mono); font-weight: 600; }
+    table.tbl-stats tr:last-child td { border-bottom: none; }
+
+    /* Auto table wrapper — app.js generates full <table> and writes via innerHTML */
+    .tbl-wrap-auto table.tbl,
+    #productPlan table.tbl {
+      width: 100%;
+      border-collapse: initial;
+      border-spacing: 0;
+      border: 2px solid var(--black);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      font-size: 17px;
+    }
+    #productPlan table.tbl:first-child {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: none;
+    }
+    #productPlan table.tbl-stats {
+      border: 2px solid var(--black);
+      border-top: none;
+      border-radius: 0;
+      border-bottom-left-radius: var(--r-lg);
+      border-bottom-right-radius: var(--r-lg);
+      overflow: hidden;
+      width: 100%;
+      border-collapse: initial;
+      border-spacing: 0;
+    }
+    .tbl-wrap-auto table.tbl {
+      border-radius: var(--r-lg);
+    }
+    .tbl--compact .tbl-time span { line-height: 33px; height: 33px; font-size: 13px; }
+    .tbl--compact .tbl-time { width: 100px; }
+    .tbl--compact td { padding: 8px 18px 8px 0; font-size: 14px; }
+    .tbl--compact td.tbl-product { padding-left: 20px; }
+
+    /* ─ results-meta pills — matches .results-meta span ─ */
+    .results-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .results-meta span {
+      background: var(--background-light-grey);
+      color: var(--black);
+      padding: 8px 14px;
+      border-radius: var(--r-sm);
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    /* Time pill (inline use outside tables) */
+    .time-pill {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── NOTICE / CALLOUT ── */
+    .notice {
+      border: 1.5px solid var(--border-grey);
+      background: var(--bg-grey);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-grey);
+    }
+    .notice strong { color: var(--black); }
+    .notice--green {
+      border-color: rgba(77,205,198,0.40);
+      background: rgba(77,205,198,0.07);
+    }
+    .notice--warn {
+      border-color: rgba(233,116,36,0.35);
+      background: rgba(233,116,36,0.06);
+    }
+    .notice--black {
+      border-color: var(--black);
+      background: var(--black);
+      color: rgba(255,255,255,0.75);
+    }
+    .notice--black strong { color: var(--white); }
+
+    /* ── INLINE ROW ── */
+    .inline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    /* ── TOGGLE ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--mid-grey);
+      cursor: pointer;
+    }
+    .toggle-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--black);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .toggle-row input:focus { box-shadow: none; border-color: transparent; }
+
+    /* ── PLAN LOCK ── */
+    .plan-lock { position: relative; }
+    .plan-lock__content { transition: filter 220ms, opacity 220ms; }
+    .plan-lock__overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(254,254,254,0.82);
+      backdrop-filter: blur(4px);
+      border-radius: 0 0 calc(var(--r-lg) - 2px) calc(var(--r-lg) - 2px);
+    }
+    .plan-lock__card {
+      width: min(360px, 100%);
+      border: 2px solid var(--black);
+      border-radius: var(--r-lg);
+      background: var(--white);
+      padding: 28px;
+      text-align: left;
+    }
+    .plan-lock__tag {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .plan-lock__title {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 1.05;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+    .plan-lock__text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-grey);
+      margin-bottom: 20px;
+    }
+    .plan-lock.is-locked .plan-lock__content {
+      filter: blur(10px);
+      opacity: 0.65;
+      pointer-events: none;
+      user-select: none;
+    }
+    .plan-lock.is-locked .plan-lock__overlay { display: flex; }
+
+    /* ── PRODUCT STICKY — matches .product-sticky from fuelling-results.css ── */
+    .product-sticky {
+      background: var(--background-light-grey);
+      padding: 20px;
+      border-radius: 30px;
+      margin-bottom: 30px;
+    }
+    @media screen and (min-width: 50em) {
+      .product-sticky {
+        max-width: 380px;
+        margin-left: auto;
+        padding: 30px;
+        position: sticky;
+        top: 90px;
+        margin-bottom: 40px;
+      }
+    }
+    .product-sticky .product-image {
+      height: auto;
+      width: 100%;
+      object-fit: contain;
+      mix-blend-mode: darken;
+    }
+    .product-sticky .current-price {
+      border: none;
+      text-align: center;
+      margin: 0 0 5px;
+      padding: 0;
+      display: block;
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .product-sticky .current-price del { color: var(--mid-grey); margin-right: 6px; }
+    .product-sticky .current-price .sale { color: var(--sale); }
+      font-family: var(--font-mono);
+      font-size: 11px;
+      border: 1px solid var(--border-grey);
+      background: var(--bg-grey);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    /* ── KBD ── */
+    .kbd { height: 1px; background: var(--border-grey); margin: 20px 0; }
+
+    /* ── CARD PREVIEW ── */
+    .card-preview {
+      margin-top: 12px;
+      border: 1.5px solid var(--border-grey);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      background: var(--bg-grey);
+    }
+    .card-preview img { width: 100%; height: auto; display: block; }
+
+    /* ── META PILL / BADGE ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--mid-grey);
+      border: 1px solid var(--border-grey);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: var(--white);
+    }
+    .badge strong { color: var(--black); font-family: var(--font-mono); }
+
+    /* ── CTA STRIP ── */
+    .cta-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    /* ── SECTION PADDING HELPERS ── */
+    .section { padding: 0 24px 20px; }
+    .section:first-child { padding-top: 20px; }
+    .section + .section { border-top: 1px solid var(--border-grey); padding-top: 20px; }
+
+    /* ── SCHEDULE OUTPUT ── */
+    #scheduleOut { overflow: auto; max-height: 680px; }
+
+    /* ── PANE TITLE ── */
+    .pane-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 18px;
+    }
+    .pane-title span { color: var(--green); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .page-hero { padding: 36px 16px 32px; }
+      .page-content { padding: 24px 16px 60px; }
+      .site-header__inner { padding: 0 16px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 440px) {
+      .site-header__label { display: none; }
+      .site-header__sep { display: none; }
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+
+    /* light theme toggle vars */
+    body.theme-dark {
+      --white: #0d0d0d;
+      --bg-grey: #111;
+      --light-grey: #181818;
+      --border-grey: #2a2a2a;
+      --black: #f0f0f0;
+      --mid-grey: #888;
+      --text-grey: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ SITE HEADER ═══════════════ -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-header__wordmark">STYRKR</div>
+      <div class="site-header__sep"></div>
+      <div class="site-header__label">Fuel Tool</div>
+
+      <nav class="site-header__nav" role="tablist" aria-label="Tool views">
+        <button class="nav-tab is-active" data-view="planner" role="tab">Planner</button>
+        <button class="nav-tab" data-view="schedule" role="tab">Schedule</button>
+        <button class="nav-tab" data-view="bundle" role="tab">Bundle Builder</button>
+        <button class="nav-tab" data-view="faqs" role="tab">Notes</button>
+      </nav>
+
+      <div class="site-header__actions">
+        <button class="button button--outline button--sm" id="themeToggle" type="button">Dark</button>
+        <a class="button button--green button--sm" href="https://styrkr.com/collections/bundle-builder" target="_blank" rel="noreferrer">Shop bundles</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="page-hero">
+    <p class="page-hero__eyebrow">Carbs · Fluids · Sodium · Bundle pricing</p>
+    <h1 class="page-hero__title">The <span>Fuel</span> Tool</h1>
+    <p class="page-hero__copy">Build a product-specific fuelling plan from a few key inputs — then convert it into a STYRKR shopping list with bundle builder pack prices. All calculations run locally in your browser.</p>
+  </section>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="page-content">
+
+    <!-- ════ PLANNER ════ -->
+    <section class="view is-active" id="view-planner" role="tabpanel">
+      <div class="tool-grid">
+
+        <!-- Left: Inputs -->
+        <div class="card">
+          <div class="card__head">
+            <h2>Inputs</h2>
+            <div class="stepper" aria-label="Planner steps">
+              <button class="step-btn is-active" data-step="0" type="button"><span class="step-num">1</span> Session</button>
+              <button class="step-btn" data-step="1" type="button"><span class="step-num">2</span> Sweat</button>
+              <button class="step-btn" data-step="2" type="button"><span class="step-num">3</span> Fuel</button>
+              <button class="step-btn" data-step="3" type="button"><span class="step-num">4</span> Output</button>
+              <button class="step-btn" data-step="4" type="button"><span class="step-num">5</span> Details</button>
+            </div>
+          </div>
+          <div class="card__body">
+            <form id="plannerForm">
+
+              <!-- Step 1 -->
+              <div class="step-pane is-active" data-step="0">
+                <div class="form-grid">
+                  <div class="pane-title">Your <span>session</span></div>
+                  <div class="row-2">
+                    <div class="field">
+                      <label for="activity">Activity</label>
+                      <select id="activity"></select>
+                      <p class="help">Affects carb demand via activity multiplier.</p>
+                    </div>
+                    <div class="field">
+                      <label for="durationH">Duration (hours)</label>
+                      <input id="durationH" type="number" min="0.25" step="0.25" value="3" />
+                      <p class="help">Use decimals — e.g. 2.5 = 2h 30m.</p>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="rpe">Intensity — RPE 1–10</label>
+                    <div class="range-row">
+                      <input id="rpe" type="range" min="1" max="10" step="0.5" value="6" />
+                      <span class="range-val"><span id="rpeVal">6.0</span></span>
+                    </div>
+                    <p class="help">Scales your carb and fluid targets. Be honest — it changes the plan.</p>
+                  </div>
+                  <div class="field">
+                    <label for="conditions">Conditions</label>
+                    <select id="conditions"></select>
+                    <p class="help">Adjusts fluid target (ml/h) up or down.</p>
+                  </div>
+                  <div class="field">
+                    <label for="bottleSizeMl">Bottle size (ml)</label>
+                    <select id="bottleSizeMl"></select>
+                    <p class="help">Used for bottle counts and drink concentration in the Schedule tab.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="step-pane" data-step="1">
+                <div class="form-grid">
+                  <div class="pane-title">Sweat <span>profile</span></div>
+                  <div class="field">
+                    <label for="sweatRate">Sweat rate</label>
+                    <select id="sweatRate"></select>
+                    <p class="help">If you have lab data, use that. Otherwise choose the best fit.</p>
+                  </div>
+                  <div class="field">
+                    <label for="sweatSalt">Sweat saltiness</label>
+                    <select id="sweatSalt"></select>
+                    <p class="help">Estimates sodium concentration in sweat (mg/L).</p>
+                  </div>
+                  <div class="field">
+                    <label for="sodiumRepl">Sodium replacement factor</label>
+                    <div class="range-row">
+                      <input id="sodiumRepl" type="range" min="0.30" max="0.80" step="0.05" value="0.50" />
+                      <span class="range-val"><span id="sodiumReplVal">0.50</span></span>
+                    </div>
+                    <p class="help">Fraction of sodium loss to replace. Most athletes: 0.4–0.7.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="step-pane" data-step="2">
+                <div class="form-grid">
+                  <div class="pane-title">Fuel <span>strategy</span></div>
+                  <div class="row-2">
+                    <div class="field">
+                      <label for="carbMode">Carb mode</label>
+                      <select id="carbMode"></select>
+                      <p class="help"><span class="kbd">Standard</span> caps at 90 g/h. <span class="kbd">Advanced</span> allows 120 g/h.</p>
+                    </div>
+                    <div class="field">
+                      <label for="caffeineProtocol">Caffeine protocol</label>
+                      <select id="caffeineProtocol"></select>
+                      <p class="help">Sets % of gels/drinks that are caffeinated.</p>
+                    </div>
+                  </div>
+                  <div class="field" id="caffeineCustomWrap" style="display:none;">
+                    <label for="caffeineCustom">Custom caffeine fraction</label>
+                    <div class="range-row">
+                      <input id="caffeineCustom" type="range" min="0" max="0.75" step="0.05" value="0.25" />
+                      <span class="range-val"><span id="caffeineCustomVal">0.25</span></span>
+                    </div>
+                    <p class="help">0.25 ≈ "some", 0.50 ≈ "high".</p>
+                  </div>
+                  <div class="field">
+                    <label>Plan style</label>
+                    <div class="choice-grid" id="planStyleGrid"></div>
+                    <p class="help">Controls carb split between drinks, gels and bars.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="step-pane" data-step="3">
+                <div class="form-grid">
+                  <div class="pane-title">Plan <span>preview</span></div>
+                  <div class="notice">
+                    The right panel shows your per-hour targets, a product plan, and a bundle builder shopping list. If anything looks off, go back a step and adjust.
+                  </div>
+                  <div class="notice notice--warn">
+                    <strong>Quick check:</strong> practise this plan in training before race day. Don't overdrink (hyponatremia risk), and don't push 120 g/h without gut training.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 5: Lead capture -->
+              <div class="step-pane" data-step="4">
+                <div class="form-grid">
+                  <div class="pane-title">Unlock <span>plan</span></div>
+                  <div class="notice notice--green">
+                    Enter your <strong>name</strong> and <strong>email</strong> to unlock the full plan summary, 30-minute schedule, fuel card export, and bundle builder tab.
+                  </div>
+                  <div class="row-2">
+                    <div class="field">
+                      <label for="leadName">Name</label>
+                      <input id="leadName" type="text" autocomplete="name" placeholder="Your name" />
+                    </div>
+                    <div class="field">
+                      <label for="leadEmail">Email</label>
+                      <input id="leadEmail" type="email" autocomplete="email" placeholder="you@domain.com" />
+                    </div>
+                  </div>
+                  <div id="leadError" class="notice notice--warn" style="display:none;"></div>
+                  <p class="help">Prototype only: stored locally in your browser. When hosted, wire this to your email capture endpoint.</p>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button class="button button--outline" id="prevBtn" type="button">← Back</button>
+                <button class="button button--green" id="nextBtn" type="button">Next →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Outputs -->
+        <div class="card card--soft card--sticky">
+          <div class="card__head">
+            <h2>Plan summary</h2>
+            <div class="badge"><span>Engine</span> <strong>local</strong></div>
+          </div>
+
+          <div class="plan-lock is-locked" id="planLock">
+            <div class="plan-lock__content" id="planLockContent">
+
+              <div class="stat-grid" id="summaryCards"></div>
+
+              <div class="section">
+                <div class="section-label">Recommended products</div>
+                <div id="productPlan"></div>
+                <div id="productNotes" class="notice" style="display:none; margin-top:12px;"></div>
+              </div>
+
+              <div class="section">
+                <div class="inline-row">
+                  <div class="section-label" style="margin:0;">Bundle Builder packs &amp; pricing</div>
+                  <label class="toggle-row">
+                    <input type="checkbox" id="applyDiscount" checked />
+                    <span>Subscribe &amp; Save (−25%)</span>
+                  </label>
+                </div>
+                <div class="tbl-wrap-auto" id="bundlePlan"></div>
+                <div class="cta-strip">
+                  <a class="button button--green button--sm" id="openPrefillByobBtn" href="https://styrkr.com/products/build-your-own-bundle" target="_blank" rel="noreferrer">Open BYOB (prefilled)</a>
+                  <button class="button button--outline button--sm" id="copyPrefillLinkBtn" type="button">Copy link</button>
+                  <button class="button button--outline button--sm" id="addBundleToCartBtn" type="button">Add to cart</button>
+                </div>
+                <div id="prefillNote" class="notice" style="display:none; margin-top:10px;"></div>
+                <div id="bundleNotes" class="notice" style="display:none; margin-top:10px;"></div>
+              </div>
+
+              <div class="section">
+                <p class="help">Data source: <span class="kbd">Fueltool + bundle Builder v2.xlsx</span>. Prices shown in GBP (£).</p>
+              </div>
+
+            </div><!-- /plan-lock__content -->
+
+            <!-- Lock overlay -->
+            <div class="plan-lock__overlay" id="planLockOverlay" aria-hidden="false">
+              <div class="plan-lock__card">
+                <div class="plan-lock__tag">Step 5 required</div>
+                <div class="plan-lock__title">Unlock your plan</div>
+                <div class="plan-lock__text">Complete Step 5 — enter your name &amp; email — to view the full plan summary and unlock all tabs.</div>
+                <button class="button button--green" id="goToDetailsBtn" type="button">Go to Step 5</button>
+              </div>
+            </div>
+          </div><!-- /plan-lock -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ SCHEDULE ════ -->
+    <section class="view" id="view-schedule" role="tabpanel">
+      <div class="tool-grid">
+        <div class="card">
+          <div class="card__head">
+            <h2>30-minute schedule</h2>
+            <div class="badge"><span>Interval</span> <strong>30 min</strong></div>
+          </div>
+          <div class="card__body">
+            <div class="form-grid">
+              <div class="notice">
+                Converts your per-hour plan into an <strong>every-30-minutes</strong> timeline, plus a bottle mixing guide. Update <strong>Bottle size</strong> in the Planner tab if needed.
+              </div>
+              <div>
+                <div class="section-label">Bottle plan</div>
+                <div id="bottlePlanOut"></div>
+              </div>
+              <div>
+                <div class="inline-row">
+                  <div class="section-label" style="margin:0;">Schedule</div>
+                  <button class="button button--outline button--sm" id="copyScheduleBtn" type="button">Copy text</button>
+                </div>
+                <div id="scheduleOut"></div>
+              </div>
+              <p class="help">Tip: use the <span class="kbd">Fuel card</span> on the right for a printable 9:16 PNG — tape it to your stem or top tube.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card--soft card--sticky">
+          <div class="card__head">
+            <h2>Fuel card export</h2>
+            <div class="badge"><span>Export</span> <strong>PNG 9:16</strong></div>
+          </div>
+          <div class="card__body">
+            <div class="notice" style="margin-bottom:16px;">
+              Generates a concise black/white card you can print and tape to your bike stem or top tube.
+            </div>
+            <div class="cta-strip" style="margin-bottom:14px;">
+              <button class="button button--green" id="generateCardBtn" type="button">Generate PNG</button>
+              <a class="button button--outline" id="downloadCardLink" href="#" download="styrkr-fuel-card.png" style="display:none;">Download</a>
+            </div>
+            <div class="card-preview">
+              <img id="cardPreviewImg" alt="Fuel card preview" />
+            </div>
+            <p class="help" style="margin-top:10px;">For very long sessions the card auto-switches to a two-column schedule layout.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ BUNDLE BUILDER ════ -->
+    <section class="view" id="view-bundle" role="tabpanel">
+      <div class="tool-grid">
+        <div class="card">
+          <div class="card__head">
+            <h2>30-day bundle inputs</h2>
+            <div class="badge"><span>Uses</span> <strong>per-hour plan</strong></div>
+          </div>
+          <div class="card__body">
+            <form id="bundleForm">
+              <div class="form-grid">
+                <div class="pane-title">Your <span>training block</span></div>
+                <div class="row-2">
+                  <div class="field">
+                    <label for="sessions30d">Sessions / 30 days</label>
+                    <input id="sessions30d" type="number" min="0" step="1" value="8" />
+                    <p class="help">Sessions in a typical 30-day block.</p>
+                  </div>
+                  <div class="field">
+                    <label for="avgSessionH">Avg duration (hours)</label>
+                    <input id="avgSessionH" type="number" min="0.25" step="0.25" value="1.5" />
+                    <p class="help">Average length of those sessions.</p>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="fuelledPct">Fuelled sessions %</label>
+                  <div class="range-row">
+                    <input id="fuelledPct" type="range" min="0" max="1" step="0.05" value="0.75" />
+                    <span class="range-val"><span id="fuelledPctVal">0.75</span></span>
+                  </div>
+                  <p class="help">Not every session needs full fuelling. This scales your monthly bundle.</p>
+                </div>
+                <div class="notice">
+                  Defaults pull from your <strong>Planner</strong> settings — carb target, sodium, caffeine, and plan style. Switch back to Planner to change those.
+                </div>
+                <label class="toggle-row">
+                  <input type="checkbox" id="bundleDiscount" checked />
+                  <span>Subscribe &amp; Save (−25%)</span>
+                </label>
+                <div id="bundle30Out"></div>
+                <div class="cta-strip">
+                  <a class="button button--green button--sm" id="openPrefillByobBtn30" href="https://styrkr.com/products/build-your-own-bundle" target="_blank" rel="noreferrer">Open BYOB (prefilled)</a>
+                  <button class="button button--outline button--sm" id="addBundleToCartBtn30" type="button">Add to cart</button>
+                </div>
+                <div id="bundle30CtaNote" class="notice" style="display:none;"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card card--soft card--sticky">
+          <div class="card__head">
+            <h2>30-day shopping list</h2>
+            <div class="badge"><span>Preview</span> <strong>packs</strong></div>
+          </div>
+          <div class="card__body">
+            <div class="section-label">Bundle Builder packs &amp; pricing</div>
+            <div class="tbl-wrap-auto" id="bundle30Packs"></div>
+            <div id="bundle30Notes" class="notice" style="display:none; margin-top:10px;"></div>
+            <p class="help" style="margin-top:12px;">Tip: if you don't meet the 4-item minimum, switch to a more varied plan style (Balanced / Adventure-led).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ NOTES ════ -->
+    <section class="view" id="view-faqs" role="tabpanel">
+      <div class="card card--soft" style="max-width:720px;">
+        <div class="card__head"><h2>Notes &amp; model transparency</h2></div>
+        <div class="card__body">
+          <div class="form-grid">
+            <div class="notice notice--warn">
+              <strong>Disclaimer:</strong> This tool provides planning estimates only — not medical advice. Validate in training and adjust for temperature, altitude, gut tolerance, and race logistics.
+            </div>
+            <div>
+              <div class="section-label">How the model works</div>
+              <p style="font-size:13px; color:var(--text-grey); line-height:1.7; margin-bottom:10px;">Targets and product splits are driven by lookup tables and formulas from the spreadsheet. The planner:</p>
+              <ul style="font-size:13px; color:var(--text-grey); line-height:1.9; padding-left:18px;">
+                <li>Sets a carb target (g/h) from <span class="kbd">duration band</span> × <span class="kbd">RPE factor</span> × <span class="kbd">activity multiplier</span>, capped by carb mode.</li>
+                <li>Sets a fluid target (ml/h) from <span class="kbd">sweat category</span> + <span class="kbd">conditions adj</span> + <span class="kbd">RPE adj</span>, clamped to 300–1200 ml/h.</li>
+                <li>Sets a sodium target (mg/h) from fluid × sweat sodium × replacement factor.</li>
+                <li>Builds a product plan from your selected style (mix / drink / gel / bar / balanced) and caffeine protocol.</li>
+              </ul>
+            </div>
+            <div class="divider"></div>
+            <div>
+              <div class="section-label">Next build ideas</div>
+              <ul style="font-size:13px; color:var(--text-grey); line-height:1.9; padding-left:18px;">
+                <li>Measured sweat rate &amp; sodium inputs (lab or field test) with confidence ranges.</li>
+                <li>Time-based schedule (every 15–30 min) + "carry plan" for pockets/bottles.</li>
+                <li>Checkout integration for bundle builder SKUs.</li>
+                <li>Multi-currency + region pack/pricing tables.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+window.STYRKR_DATA = {
+  "meta": {
+    "generated_from": "Fueltool + bundle Builder v2.xlsx",
+    "currency": "GBP",
+    "discount_first_order": 0.25,
+    "bundle_min_distinct_items": 4
+  },
+  "rules": {
+    "activity_multiplier": {
+      "Running": 0.95,
+      "Cycling": 1.05,
+      "Triathlon": 1.0,
+      "Hybrid": 0.75
+    },
+    "rpe_factor_thresholds": [
+      {
+        "min_rpe": 1.0,
+        "factor": 0.8
+      },
+      {
+        "min_rpe": 4.0,
+        "factor": 0.9
+      },
+      {
+        "min_rpe": 6.0,
+        "factor": 0.97
+      },
+      {
+        "min_rpe": 8.0,
+        "factor": 1.05
+      },
+      {
+        "min_rpe": 10.0,
+        "factor": 1.1
+      }
+    ],
+    "duration_bands": [
+      {
+        "band": "<1h",
+        "low": 0.0,
+        "mid": 20.0,
+        "high": 30.0
+      },
+      {
+        "band": "1\u20132h",
+        "low": 30.0,
+        "mid": 45.0,
+        "high": 60.0
+      },
+      {
+        "band": "2\u20133h",
+        "low": 50.0,
+        "mid": 70.0,
+        "high": 90.0
+      },
+      {
+        "band": "3\u20135h",
+        "low": 70.0,
+        "mid": 90.0,
+        "high": 100.0
+      },
+      {
+        "band": "5\u20138h",
+        "low": 80.0,
+        "mid": 90.0,
+        "high": 110.0
+      },
+      {
+        "band": "8h+",
+        "low": 60.0,
+        "mid": 80.0,
+        "high": 100.0
+      }
+    ],
+    "carb_mode_caps": {
+      "Standard": 90.0,
+      "Advanced": 120.0
+    },
+    "sweat_rate_mlph": {
+      "Not very sweaty at all": 400.0,
+      "Fairly sweaty": 600.0,
+      "I have a normal sweat rate": 800.0,
+      "Very sweaty": 1000.0
+    },
+    "conditions_fluid_adj_mlph": {
+      "Cold (<10\u00b0C)": -150.0,
+      "Mild (10\u201318\u00b0C)": 0.0,
+      "Hot (19\u201326\u00b0C)": 150.0,
+      "Very hot (>26\u00b0C)": 300.0
+    },
+    "sweat_sodium_mgL": {
+      "Not salty at all": 500.0,
+      "Kinda salty": 900.0,
+      "Very salty (I get white marks on my kit)": 1500.0
+    },
+    "caffeine_fraction": {
+      "None": 0.0,
+      "Some": 0.25,
+      "High": 0.5
+    },
+    "plan_styles": {
+      "Mix-led": {
+        "description": "Mostly drinks + a few gels (simple, bottle-friendly)",
+        "drink_share": 0.8,
+        "gel_share": 0.15,
+        "bar_share": 0.05,
+        "gel50_share": 0.5,
+        "bar50_share": 0.5
+      },
+      "Drink-led": {
+        "description": "Drink-first with some gels + a touch of bars (variety)",
+        "drink_share": 0.7,
+        "gel_share": 0.25,
+        "bar_share": 0.05,
+        "gel50_share": 0.5,
+        "bar50_share": 0.5
+      },
+      "Gel-led": {
+        "description": "Mostly gels; keeps drinks light (good for running)",
+        "drink_share": 0.15,
+        "gel_share": 0.75,
+        "bar_share": 0.1,
+        "gel50_share": 0.7,
+        "bar50_share": 0.5
+      },
+      "Bar-led": {
+        "description": "Bars as the backbone; gels top-up (adventures)",
+        "drink_share": 0.15,
+        "gel_share": 0.35,
+        "bar_share": 0.5,
+        "gel50_share": 0.5,
+        "bar50_share": 0.8
+      },
+      "Adventure-led": {
+        "description": "Balanced mix of drinks, gels and bars (long days)",
+        "drink_share": 0.35,
+        "gel_share": 0.3,
+        "bar_share": 0.35,
+        "gel50_share": 0.6,
+        "bar50_share": 0.7
+      },
+      "Balanced": {
+        "description": "Even split with steady variety",
+        "drink_share": 0.4,
+        "gel_share": 0.4,
+        "bar_share": 0.2,
+        "gel50_share": 0.5,
+        "bar50_share": 0.6
+      }
+    }
+  },
+  "products": {
+    "MIX60": {
+      "sku": "MIX60",
+      "name": "MIX60 Dual-Carb Energy Drink Mix",
+      "category": "Carb+Hydration",
+      "unit_type": "Sachet serving",
+      "serving_size": "65 g powder",
+      "carbs_g": 60.0,
+      "sodium_mg": 56.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 24.99,
+      "url": "https://styrkr.com/products/mix60-dual-carb-drink"
+    },
+    "MIX90": {
+      "sku": "MIX90",
+      "name": "MIX90 Dual-Carb Energy Drink Mix",
+      "category": "Carb+Hydration",
+      "unit_type": "Sachet serving",
+      "serving_size": "95 g powder",
+      "carbs_g": 90.0,
+      "sodium_mg": 80.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 29.99,
+      "url": "https://styrkr.com/products/mix90-dual-carb-drink"
+    },
+    "MIX90_CAFF": {
+      "sku": "MIX90_CAFF",
+      "name": "MIX90 Caffeine Dual-Carb Energy Drink Mix",
+      "category": "Carb+Hydration",
+      "unit_type": "Sachet serving",
+      "serving_size": "95 g powder",
+      "carbs_g": 90.0,
+      "sodium_mg": 80.0,
+      "caffeine_mg": 150.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 34.99,
+      "url": "https://styrkr.com/products/mix90-caffeine-dual-carb-drink"
+    },
+    "MIXPLUS": {
+      "sku": "MIXPLUS",
+      "name": "MIX+ Dual-Carb & Electrolyte Mix (tub)",
+      "category": "Carb+Hydration",
+      "unit_type": "Scoop serving",
+      "serving_size": "37 g scoop",
+      "carbs_g": 30.3,
+      "sodium_mg": 360.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 15.0,
+      "one_time_rrp_gbp": 19.99,
+      "url": "https://styrkr.com/products/byob-mix-blood-orange-dual-carb-electrolyte-mix"
+    },
+    "GEL30": {
+      "sku": "GEL30",
+      "name": "GEL30 Dual-Carb Energy Gel",
+      "category": "Carb",
+      "unit_type": "Gel sachet",
+      "serving_size": "72 g",
+      "carbs_g": 30.0,
+      "sodium_mg": 0.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": null,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 24.99,
+      "url": "https://styrkr.com/products/gel30-dual-carb-gel"
+    },
+    "GEL30_CAFF": {
+      "sku": "GEL30_CAFF",
+      "name": "GEL30 Caffeine Energy Gel",
+      "category": "Carb",
+      "unit_type": "Gel sachet",
+      "serving_size": "72 g",
+      "carbs_g": 30.0,
+      "sodium_mg": 0.0,
+      "caffeine_mg": 150.0,
+      "mix_water_ml": null,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 24.99,
+      "url": "https://styrkr.com/products/gel30-dual-carb-gel-caffeine"
+    },
+    "GEL50": {
+      "sku": "GEL50",
+      "name": "GEL50 Dual-Carb Energy Gel",
+      "category": "Carb",
+      "unit_type": "Gel sachet",
+      "serving_size": "72 g",
+      "carbs_g": 50.0,
+      "sodium_mg": 0.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": null,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 29.99,
+      "url": "https://styrkr.com/products/gel50-dual-carb-energy-gel-citrus-fruits"
+    },
+    "BAR30": {
+      "sku": "BAR30",
+      "name": "BAR30 Energy Rice Bar (avg across flavours)",
+      "category": "Carb",
+      "unit_type": "Bar",
+      "serving_size": "~42 g bar",
+      "carbs_g": 30.0,
+      "sodium_mg": 115.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": null,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 19.99,
+      "url": "https://styrkr.com/products/bar30-high-carb-rice-energy-bar"
+    },
+    "BAR50": {
+      "sku": "BAR50",
+      "name": "BAR50 Energy Rice Bar (avg across flavours)",
+      "category": "Carb",
+      "unit_type": "Bar",
+      "serving_size": "~70 g bar",
+      "carbs_g": 50.4,
+      "sodium_mg": 239.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": null,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 29.99,
+      "url": "https://styrkr.com/products/bar50-variety-pack-energy-bars"
+    },
+    "SLT07_500": {
+      "sku": "SLT07_500",
+      "name": "SLT07 Hydration Tablets 500mg sodium",
+      "category": "Electrolyte",
+      "unit_type": "Tablet",
+      "serving_size": "1 tablet",
+      "carbs_g": 0.0,
+      "sodium_mg": 500.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 9.99,
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-berry-500mg"
+    },
+    "SLT07_1000": {
+      "sku": "SLT07_1000",
+      "name": "SLT07 Hydration Tablets 1000mg sodium",
+      "category": "Electrolyte",
+      "unit_type": "Tablet",
+      "serving_size": "1 tablet",
+      "carbs_g": 0.0,
+      "sodium_mg": 1000.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 12.0,
+      "one_time_rrp_gbp": 9.99,
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-citrus"
+    },
+    "SLTPLUS": {
+      "sku": "SLTPLUS",
+      "name": "SLT+ High-Strength Electrolyte Supplement",
+      "category": "Electrolyte",
+      "unit_type": "Sachet serving",
+      "serving_size": "7.5 g",
+      "carbs_g": 0.0,
+      "sodium_mg": 1080.0,
+      "caffeine_mg": 0.0,
+      "mix_water_ml": 500.0,
+      "default_pack_size_units": 30.0,
+      "one_time_rrp_gbp": 29.99,
+      "url": "https://styrkr.com/products/slt-plus"
+    }
+  },
+  "packs": {
+    "MIX60_6": {
+      "pack_key": "MIX60_6",
+      "sku": "MIX60",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 13.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/mix60-dual-carb-energy-drink-mix-copy",
+      "rc_product_id": 15658994794878,
+      "rc_variant_id": 56589794050430
+    },
+    "MIX60_12": {
+      "pack_key": "MIX60_12",
+      "sku": "MIX60",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 24.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/mix60-dual-carb-energy-drink-mix-copy",
+      "rc_product_id": 15658994794878,
+      "rc_variant_id": 56519067828606
+    },
+    "MIX90_6": {
+      "pack_key": "MIX90_6",
+      "sku": "MIX90",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 16.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/mix90-dual-carb-energy-drink-mix-copy",
+      "rc_product_id": 15659003085182,
+      "rc_variant_id": 56589777731966
+    },
+    "MIX90_12": {
+      "pack_key": "MIX90_12",
+      "sku": "MIX90",
+      "pack_option": "Box of 12",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 29.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/mix90-dual-carb-energy-drink-mix-copy",
+      "rc_product_id": 15659003085182,
+      "rc_variant_id": 56519094436222
+    },
+    "MIX90_CAFF_6": {
+      "pack_key": "MIX90_CAFF_6",
+      "sku": "MIX90_CAFF",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 17.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/byob-mix90-caffeine-dual-carb-energy-drink-mix",
+      "rc_product_id": 15658994368894,
+      "rc_variant_id": 56519066976638
+    },
+    "MIX90_CAFF_12": {
+      "pack_key": "MIX90_CAFF_12",
+      "sku": "MIX90_CAFF",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 34.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/byob-mix90-caffeine-dual-carb-energy-drink-mix",
+      "rc_product_id": 15658994368894,
+      "rc_variant_id": 56589521224062
+    },
+    "MIXPLUS_15": {
+      "pack_key": "MIXPLUS_15",
+      "sku": "MIXPLUS",
+      "pack_option": "556g tub (~15 servings)",
+      "units_per_pack": 15.0,
+      "rrp_gbp": 19.99,
+      "notes": "Serving=37g scoop",
+      "url": "https://styrkr.com/products/byob-mix-pink-grapefruit-dual-carb-electrolyte-mix",
+      "rc_product_id": 15658993418622,
+      "rc_variant_id": 56519065796990
+    },
+    "MIXPLUS_25": {
+      "pack_key": "MIXPLUS_25",
+      "sku": "MIXPLUS",
+      "pack_option": "926g tub (~25 servings)",
+      "units_per_pack": 25.0,
+      "rrp_gbp": 29.99,
+      "notes": "Serving=37g scoop",
+      "url": "https://styrkr.com/products/byob-mix-pink-grapefruit-dual-carb-electrolyte-mix",
+      "rc_product_id": 15658993418622,
+      "rc_variant_id": 56519065829758
+    },
+    "GEL30_6": {
+      "pack_key": "GEL30_6",
+      "sku": "GEL30",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 13.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-gel30-dual-carb-energy-gel-1x-copy",
+      "rc_product_id": 15666723225982,
+      "rc_variant_id": 56540831482238
+    },
+    "GEL30_12": {
+      "pack_key": "GEL30_12",
+      "sku": "GEL30",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 24.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-gel30-dual-carb-energy-gel-1x-copy",
+      "rc_product_id": 15666723225982,
+      "rc_variant_id": 56540831449470
+    },
+    "GEL30_CAFF_6": {
+      "pack_key": "GEL30_CAFF_6",
+      "sku": "GEL30_CAFF",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 13.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-gel30-caffeine-energy-gel-1x-copy",
+      "rc_product_id": 15666724077950,
+      "rc_variant_id": 56540832989566
+    },
+    "GEL30_CAFF_12": {
+      "pack_key": "GEL30_CAFF_12",
+      "sku": "GEL30_CAFF",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 24.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-gel30-caffeine-energy-gel-1x-copy",
+      "rc_product_id": 15666724077950,
+      "rc_variant_id": 56540832956798
+    },
+    "GEL50_12": {
+      "pack_key": "GEL50_12",
+      "sku": "GEL50",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 29.99,
+      "notes": "Standard box of 12",
+      "url": "https://styrkr.com/products/byob-gel50-dual-carb-energy-gel-citrus-fruits-1x-copy",
+      "rc_product_id": 15666728796542,
+      "rc_variant_id": 56540881944958
+    },
+    "BAR30_12": {
+      "pack_key": "BAR30_12",
+      "sku": "BAR30",
+      "pack_option": "Variety Box",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 19.99,
+      "notes": "1 box / 12 bars",
+      "url": "https://styrkr.com/products/bar30-high-carb-rice-energy-bar",
+      "rc_product_id": 15538357830014,
+      "rc_variant_id": 56124173058430
+    },
+    "BAR50_6": {
+      "pack_key": "BAR50_6",
+      "sku": "BAR50",
+      "pack_option": "6 pack",
+      "units_per_pack": 6.0,
+      "rrp_gbp": 16.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-bar50-dark-chocolate-chip-x1-copy",
+      "rc_product_id": 15666721685886,
+      "rc_variant_id": 56540827582846
+    },
+    "BAR50_12": {
+      "pack_key": "BAR50_12",
+      "sku": "BAR50",
+      "pack_option": "12 pack",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 29.99,
+      "notes": "BYOB option",
+      "url": "https://styrkr.com/products/vq-byob-bar50-dark-chocolate-chip-x1-copy",
+      "rc_product_id": 15666721685886,
+      "rc_variant_id": 56540827550078
+    },
+    "SLT07_500_T12": {
+      "pack_key": "SLT07_500_T12",
+      "sku": "SLT07_500",
+      "pack_option": "Tube of 12",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 9.99,
+      "notes": "500mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-berry-500mg",
+      "rc_product_id": 15740724380030,
+      "rc_variant_id": 56791854154110
+    },
+    "SLT07_500_B3": {
+      "pack_key": "SLT07_500_B3",
+      "sku": "SLT07_500",
+      "pack_option": "Box of 3",
+      "units_per_pack": 36.0,
+      "rrp_gbp": 24.99,
+      "notes": "500mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-berry-500mg",
+      "rc_product_id": 15740724380030,
+      "rc_variant_id": 56791855759742
+    },
+    "SLT07_500_B6": {
+      "pack_key": "SLT07_500_B6",
+      "sku": "SLT07_500",
+      "pack_option": "Box of 6",
+      "units_per_pack": 72.0,
+      "rrp_gbp": 49.99,
+      "notes": "500mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-berry-500mg",
+      "rc_product_id": 15740724380030,
+      "rc_variant_id": 56791855792510
+    },
+    "SLT07_1000_T12": {
+      "pack_key": "SLT07_1000_T12",
+      "sku": "SLT07_1000",
+      "pack_option": "Tube of 12",
+      "units_per_pack": 12.0,
+      "rrp_gbp": 9.99,
+      "notes": "1000mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-citrus",
+      "rc_product_id": 15740722872702,
+      "rc_variant_id": 56791845568894
+    },
+    "SLT07_1000_B3": {
+      "pack_key": "SLT07_1000_B3",
+      "sku": "SLT07_1000",
+      "pack_option": "Box of 3",
+      "units_per_pack": 36.0,
+      "rrp_gbp": 24.99,
+      "notes": "1000mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-citrus",
+      "rc_product_id": 15740722872702,
+      "rc_variant_id": 56791851532670
+    },
+    "SLT07_1000_B6": {
+      "pack_key": "SLT07_1000_B6",
+      "sku": "SLT07_1000",
+      "pack_option": "Box of 6",
+      "units_per_pack": 72.0,
+      "rrp_gbp": 49.95,
+      "notes": "1000mg sodium/tab",
+      "url": "https://styrkr.com/products/slt07-hydration-tablets-mild-citrus",
+      "rc_product_id": 15740722872702,
+      "rc_variant_id": 56791851565438
+    },
+    "SLTPLUS_30": {
+      "pack_key": "SLTPLUS_30",
+      "sku": "SLTPLUS",
+      "pack_option": "Variety Box",
+      "units_per_pack": 30.0,
+      "rrp_gbp": 29.99,
+      "notes": "1080mg sodium/serv",
+      "url": "https://styrkr.com/products/slt-plus",
+      "rc_product_id": 15363667689854,
+      "rc_variant_id": 55988528480638
+    }
+  },
+  "packs_by_sku": {
+    "MIX60": [
+      "MIX60_6",
+      "MIX60_12"
+    ],
+    "MIX90": [
+      "MIX90_6",
+      "MIX90_12"
+    ],
+    "MIX90_CAFF": [
+      "MIX90_CAFF_6",
+      "MIX90_CAFF_12"
+    ],
+    "MIXPLUS": [
+      "MIXPLUS_15",
+      "MIXPLUS_25"
+    ],
+    "GEL30": [
+      "GEL30_6",
+      "GEL30_12"
+    ],
+    "GEL30_CAFF": [
+      "GEL30_CAFF_6",
+      "GEL30_CAFF_12"
+    ],
+    "GEL50": [
+      "GEL50_12"
+    ],
+    "BAR30": [
+      "BAR30_12"
+    ],
+    "BAR50": [
+      "BAR50_6",
+      "BAR50_12"
+    ],
+    "SLT07_500": [
+      "SLT07_500_T12",
+      "SLT07_500_B3",
+      "SLT07_500_B6"
+    ],
+    "SLT07_1000": [
+      "SLT07_1000_T12",
+      "SLT07_1000_B3",
+      "SLT07_1000_B6"
+    ],
+    "SLTPLUS": [
+      "SLTPLUS_30"
+    ]
+  }
+};
+
+</script>
+  <script>
+/* STYRKR Fuel Tool – UI + Calculation Engine
+   Data source: window.STYRKR_DATA (generated from Fueltool + bundle Builder v2.xlsx)
+
+   This is a prototype UI focused on:
+   - Minimal black/white grid aesthetic (STYRKR accents)
+   - Transparent formulas (mirrors the spreadsheet logic)
+   - Product plan + bundle builder pack pricing
+*/
+
+(function () {
+  const DATA = window.STYRKR_DATA;
+  if (!DATA) {
+    console.error("Missing STYRKR_DATA. Ensure assets/data.js is loaded first.");
+    return;
+  }
+
+  const $ = (id) => document.getElementById(id);
+
+  const SKUS_ORDER = [
+    "MIXPLUS",
+    "MIX60",
+    "MIX90",
+    "MIX90_CAFF",
+    "GEL30",
+    "GEL30_CAFF",
+    "GEL50",
+    "BAR30",
+    "BAR50",
+    "SLT07_500",
+    "SLT07_1000",
+    "SLTPLUS",
+  ];
+
+  // ----- State -----
+  const state = {
+    view: "planner",
+    step: 0,
+    lead: {
+      name: "",
+      email: "",
+      unlocked: false,
+      capturedAt: null,
+    },
+    planner: {
+      activity: Object.keys(DATA.rules.activity_multiplier)[0] || "Cycling",
+      durationH: 3,
+      rpe: 6,
+      conditions: Object.keys(DATA.rules.conditions_fluid_adj_mlph)[1] || Object.keys(DATA.rules.conditions_fluid_adj_mlph)[0],
+      bottleSizeMl: 750,
+      sweatRate: Object.keys(DATA.rules.sweat_rate_mlph)[2] || Object.keys(DATA.rules.sweat_rate_mlph)[0],
+      sweatSalt: Object.keys(DATA.rules.sweat_sodium_mgL)[1] || Object.keys(DATA.rules.sweat_sodium_mgL)[0],
+      carbMode: Object.keys(DATA.rules.carb_mode_caps)[0] || "Standard",
+      caffeineProtocol: "None",
+      caffeineCustom: 0.25,
+      planStyle: "Balanced",
+      sodiumRepl: 0.5,
+      applyDiscount: true,
+    },
+    bundle: {
+      sessions30d: 8,
+      avgSessionH: 1.5,
+      fuelledPct: 0.75,
+      applyDiscount: true,
+    },
+  };
+
+  const STORAGE_KEY_LEAD = "styrkr_fuel_tool_lead_v1";
+
+  // ----- Utilities -----
+  const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+  const round = (x, dp = 0) => {
+    const p = Math.pow(10, dp);
+    return Math.round(x * p) / p;
+  };
+  const ceil = (x) => Math.ceil(x - 1e-9); // protect from floating point noise
+  const fmt = (x, dp = 0) => (Number.isFinite(x) ? x.toFixed(dp) : "—");
+
+
+  const pad2 = (n) => String(Math.floor(Math.abs(n))).padStart(2, "0");
+
+  function formatHhMm(hours) {
+    const totalMin = Math.round(hours * 60);
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    return `${pad2(h)}:${pad2(m)}`;
+  }
+
+  // Distribute an integer total across N slots as evenly as possible (sum(out) === total).
+  function distribute(total, slots) {
+    const T = Math.max(0, Math.floor(total || 0));
+    const N = Math.max(1, Math.floor(slots || 1));
+    const out = Array(N).fill(0);
+    for (let i = 0; i < N; i++) {
+      const a = Math.floor((T * (i + 1)) / N);
+      const b = Math.floor((T * i) / N);
+      out[i] = a - b;
+    }
+    return out;
+  }
+
+  function toClipboard(text) {
+    if (!navigator.clipboard) return Promise.reject(new Error("Clipboard API unavailable"));
+    return navigator.clipboard.writeText(text);
+  }
+
+  function base64UrlEncode(str) {
+    // Encode unicode safely
+    const utf8 = new TextEncoder().encode(str);
+    let bin = "";
+    utf8.forEach((b) => (bin += String.fromCharCode(b)));
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+
+  function isLocalMode() {
+    const proto = String(location.protocol || "").toLowerCase();
+    const host = String(location.hostname || "").toLowerCase();
+    return proto === "file:" || host === "" || host === "localhost" || host === "127.0.0.1";
+  }
+
+  function safeParseJson(str) {
+    try {
+      return JSON.parse(str);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function loadLead() {
+    if (typeof localStorage === "undefined") return;
+    const raw = localStorage.getItem(STORAGE_KEY_LEAD);
+    if (!raw) return;
+    const obj = safeParseJson(raw);
+    if (!obj || typeof obj !== "object") return;
+    const name = String(obj.name || "").trim();
+    const email = String(obj.email || "").trim();
+    if (!name || !email) return;
+    state.lead.name = name;
+    state.lead.email = email;
+    state.lead.unlocked = true;
+    state.lead.capturedAt = obj.capturedAt || null;
+  }
+
+  function saveLead() {
+    if (!state.lead.unlocked) return;
+    if (typeof localStorage === "undefined") return;
+    const payload = {
+      name: state.lead.name,
+      email: state.lead.email,
+      capturedAt: state.lead.capturedAt || new Date().toISOString(),
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY_LEAD, JSON.stringify(payload));
+    } catch (_) {
+      // Ignore storage errors (private mode, etc.)
+    }
+  }
+
+  function isValidEmail(email) {
+    const e = String(email || "").trim();
+    // Intentionally simple: enough to block obvious junk when hosted.
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  }
+
+  function validateLeadInputs(name, email) {
+    const n = String(name || "").trim();
+    const e = String(email || "").trim();
+    if (!n || !e) return { ok: false, message: "Enter both name and email to unlock the plan." };
+    if (!isLocalMode() && !isValidEmail(e)) return { ok: false, message: "Enter a valid email address to continue." };
+    return { ok: true, message: "" };
+  }
+
+  function durationBand(durationH) {
+    if (durationH < 1) return "<1h";
+    if (durationH < 2) return "1–2h";
+    if (durationH < 3) return "2–3h";
+    if (durationH < 5) return "3–5h";
+    if (durationH < 8) return "5–8h";
+    return "8h+";
+  }
+
+  function lookupRpeFactor(rpe) {
+    const thr = [...DATA.rules.rpe_factor_thresholds].sort((a, b) => a.min_rpe - b.min_rpe);
+    let f = thr[0]?.factor ?? 1;
+    for (const t of thr) {
+      if (rpe >= t.min_rpe) f = t.factor;
+      else break;
+    }
+    return f;
+  }
+
+  function caffeineFraction() {
+    if (state.planner.caffeineProtocol === "Custom") return clamp(Number(state.planner.caffeineCustom) || 0, 0, 0.75);
+    return Number(DATA.rules.caffeine_fraction[state.planner.caffeineProtocol] ?? 0);
+  }
+
+  function getProduct(sku) {
+    return DATA.products[sku];
+  }
+
+  function getPack(packKey) {
+    return DATA.packs[packKey];
+  }
+
+  function pickPackKeyByUnits(sku, unitsPerPack) {
+    const keys = DATA.packs_by_sku[sku] || [];
+    return keys.find((k) => Number(DATA.packs[k].units_per_pack) === Number(unitsPerPack)) || null;
+  }
+
+  // ----- Core calculations (mirrors spreadsheet logic) -----
+  function computeTargets() {
+    const p = state.planner;
+
+    const activityMult = Number(DATA.rules.activity_multiplier[p.activity] ?? 1);
+    const rpeFactor = lookupRpeFactor(Number(p.rpe));
+    const band = durationBand(Number(p.durationH));
+
+    // Spreadsheet uses the "Mid" column for each duration band
+    const bandRow = DATA.rules.duration_bands.find((d) => d.band === band);
+    const baseCarb = Number(bandRow?.mid ?? 0) * rpeFactor;
+
+    const carbCap = Number(DATA.rules.carb_mode_caps[p.carbMode] ?? 90);
+    const carbTargetGph = Math.min(carbCap, Math.round(baseCarb * activityMult));
+
+    // Fluid target (ml/h)
+    const baseFluid = Number(DATA.rules.sweat_rate_mlph[p.sweatRate] ?? 800);
+    const condAdj = Number(DATA.rules.conditions_fluid_adj_mlph[p.conditions] ?? 0);
+    const intensityAdj = (Number(p.rpe) - 5) * 25;
+    const fluidTargetMlph = clamp(baseFluid + condAdj + intensityAdj, 300, 1200);
+
+    // Sweat sodium concentration (mg/L)
+    const sweatNaMgL = Number(DATA.rules.sweat_sodium_mgL[p.sweatSalt] ?? 900);
+
+    // Sodium target (mg/h) = (fluid_L/h * sweatNa_mg/L) * replacement factor
+    const sodiumTargetMgph = Math.round((fluidTargetMlph / 1000) * sweatNaMgL * Number(p.sodiumRepl));
+
+    return {
+      activityMult,
+      rpeFactor,
+      band,
+      baseCarb,
+      carbCap,
+      carbTargetGph,
+      baseFluid,
+      condAdj,
+      intensityAdj,
+      fluidTargetMlph,
+      sweatNaMgL,
+      sodiumTargetMgph,
+      caffFrac: caffeineFraction(),
+    };
+  }
+
+  function computePlanPerHour(targets) {
+    const p = state.planner;
+    const style = DATA.rules.plan_styles[p.planStyle];
+    if (!style) {
+      return { perHour: {}, debug: { error: "Unknown plan style" } };
+    }
+
+    const dur = Number(p.durationH);
+    const W = dur < 2 ? 0 : dur < 3 ? 0.5 : 1;
+
+    const X = Number(style.drink_share);
+    const Z = Number(style.bar_share) * W;
+    const Y = Number(style.gel_share) + (Number(style.bar_share) - Z); // shift missing bar share to gels
+
+    const drinkCarbs = targets.carbTargetGph * X;
+    const gelCarbs = targets.carbTargetGph * Y;
+    const barCarbs = targets.carbTargetGph * Z;
+
+    const caff = targets.caffFrac;
+
+    // Drink products (piecewise mapping from spreadsheet)
+    const mixPlus = getProduct("MIXPLUS");
+    const mix60 = getProduct("MIX60");
+    const mix90 = getProduct("MIX90");
+    const mix90Caff = getProduct("MIX90_CAFF");
+
+    const mixPlusPerH = drinkCarbs <= 35 ? drinkCarbs / mixPlus.carbs_g : 0;
+    const mix60PerH = drinkCarbs > 35 && drinkCarbs <= 70 ? drinkCarbs / mix60.carbs_g : 0;
+    const mix90PerH = drinkCarbs > 70 ? (drinkCarbs * (1 - caff)) / mix90.carbs_g : 0;
+    const mix90CaffPerH = drinkCarbs > 70 ? (drinkCarbs * caff) / mix90Caff.carbs_g : 0;
+
+    // Gels
+    const gel30 = getProduct("GEL30");
+    const gel30Caff = getProduct("GEL30_CAFF");
+    const gel50 = getProduct("GEL50");
+
+    const gel30CaffPerH = (gelCarbs * caff) / gel30Caff.carbs_g;
+    const gel50PerH = (gelCarbs * (1 - caff) * Number(style.gel50_share)) / gel50.carbs_g;
+    const gel30PerH = (gelCarbs * (1 - caff) * (1 - Number(style.gel50_share))) / gel30.carbs_g;
+
+    // Bars
+    const bar30 = getProduct("BAR30");
+    const bar50 = getProduct("BAR50");
+
+    const bar50PerH = barCarbs === 0 ? 0 : (barCarbs * Number(style.bar50_share)) / bar50.carbs_g;
+    const bar30PerH = barCarbs === 0 ? 0 : (barCarbs * (1 - Number(style.bar50_share))) / bar30.carbs_g;
+
+    // Sodium from drinks + bars (gels assumed 0 sodium in the model)
+    const sodiumFrom =
+      mixPlusPerH * mixPlus.sodium_mg +
+      mix60PerH * mix60.sodium_mg +
+      mix90PerH * mix90.sodium_mg +
+      mix90CaffPerH * mix90Caff.sodium_mg +
+      bar30PerH * bar30.sodium_mg +
+      bar50PerH * bar50.sodium_mg;
+
+    const sodiumRemaining = Math.max(0, targets.sodiumTargetMgph - sodiumFrom);
+
+    // Electrolytes: choose one tier based on remaining sodium per hour
+    const slt500 = getProduct("SLT07_500");
+    const slt1000 = getProduct("SLT07_1000");
+    const sltPlus = getProduct("SLTPLUS");
+
+    const slt500PerH = sodiumRemaining > 0 && sodiumRemaining <= 500 ? sodiumRemaining / slt500.sodium_mg : 0;
+    const slt1000PerH = sodiumRemaining > 500 && sodiumRemaining <= 1000 ? sodiumRemaining / slt1000.sodium_mg : 0;
+    const sltPlusPerH = sodiumRemaining > 1000 ? sodiumRemaining / sltPlus.sodium_mg : 0;
+
+    const perHour = {
+      MIX60: mix60PerH,
+      MIX90: mix90PerH,
+      MIX90_CAFF: mix90CaffPerH,
+      MIXPLUS: mixPlusPerH,
+      GEL30: gel30PerH,
+      GEL30_CAFF: gel30CaffPerH,
+      GEL50: gel50PerH,
+      BAR30: bar30PerH,
+      BAR50: bar50PerH,
+      SLT07_500: slt500PerH,
+      SLT07_1000: slt1000PerH,
+      SLTPLUS: sltPlusPerH,
+    };
+
+    const drinkMlph = 500 * (mixPlusPerH + mix60PerH + mix90PerH + mix90CaffPerH);
+
+    const caffeineMgph = mix90CaffPerH * mix90Caff.caffeine_mg + gel30CaffPerH * gel30Caff.caffeine_mg;
+
+    return {
+      perHour,
+      debug: {
+        W,
+        X,
+        Y,
+        Z,
+        drinkCarbs,
+        gelCarbs,
+        barCarbs,
+        sodiumFrom,
+        sodiumRemaining,
+        drinkMlph,
+        caffeineMgph,
+      },
+    };
+  }
+
+  function computeEventTotals(perHour) {
+    const dur = Number(state.planner.durationH);
+    const totals = {};
+    for (const sku of SKUS_ORDER) {
+      const v = Number(perHour[sku] ?? 0) * dur;
+      totals[sku] = v > 0 ? ceil(v) : 0;
+    }
+    return totals;
+  }
+
+  function computeBundleTotals(perHour, hoursAdjusted) {
+    const totals = {};
+    for (const sku of SKUS_ORDER) {
+      const v = Number(perHour[sku] ?? 0) * hoursAdjusted;
+      totals[sku] = v > 0 ? ceil(v) : 0;
+    }
+    return totals;
+  }
+
+  // ----- Pack selection (mirrors spreadsheet heuristics) -----
+  function packsForSku(sku, unitsNeeded) {
+    const u = Number(unitsNeeded || 0);
+    if (u <= 0) return [];
+
+    // Special cases
+    const sixTwelveSkus = new Set(["MIX60", "MIX90", "MIX90_CAFF", "GEL30", "GEL30_CAFF", "BAR50"]);
+    if (sixTwelveSkus.has(sku)) {
+      const pk6 = pickPackKeyByUnits(sku, 6);
+      const pk12 = pickPackKeyByUnits(sku, 12);
+      if (!pk12) return [];
+      const rem = u % 12;
+      const qty12 = Math.floor(u / 12) + (rem > 6 ? 1 : 0);
+      const qty6 = rem > 0 && rem <= 6 ? 1 : 0;
+      const out = [];
+      if (qty12 > 0) out.push({ packKey: pk12, qty: qty12 });
+      if (qty6 > 0 && pk6) out.push({ packKey: pk6, qty: qty6 });
+      return out;
+    }
+
+    if (sku === "MIXPLUS") {
+      const pk15 = pickPackKeyByUnits(sku, 15);
+      const pk25 = pickPackKeyByUnits(sku, 25);
+      if (!pk25) return [];
+      const rem = u % 25;
+      const qty25 = Math.floor(u / 25) + (rem > 15 ? 1 : 0);
+      const qty15 = rem > 0 && rem <= 15 ? 1 : 0;
+      const out = [];
+      if (qty25 > 0) out.push({ packKey: pk25, qty: qty25 });
+      if (qty15 > 0 && pk15) out.push({ packKey: pk15, qty: qty15 });
+      return out;
+    }
+
+    if (sku === "SLT07_500" || sku === "SLT07_1000") {
+      // Packs are 12 / 36 / 72 units
+      const pk12 = pickPackKeyByUnits(sku, 12);
+      const pk36 = pickPackKeyByUnits(sku, 36);
+      const pk72 = pickPackKeyByUnits(sku, 72);
+      if (!pk12) return [];
+
+      const qty72 = pk72 ? Math.floor(u / 72) : 0;
+      const rem72 = u % 72;
+      const qty36 = pk36 ? Math.floor(rem72 / 36) : 0;
+      const rem36 = rem72 % 36;
+      const qty12 = rem36 > 0 ? Math.ceil(rem36 / 12) : 0;
+
+      const out = [];
+      if (qty72 > 0) out.push({ packKey: pk72, qty: qty72 });
+      if (qty36 > 0) out.push({ packKey: pk36, qty: qty36 });
+      if (qty12 > 0) out.push({ packKey: pk12, qty: qty12 });
+      return out;
+    }
+
+    if (sku === "SLTPLUS") {
+      const pk30 = pickPackKeyByUnits(sku, 30);
+      if (!pk30) return [];
+      const qty30 = Math.ceil(u / 30);
+      return qty30 > 0 ? [{ packKey: pk30, qty: qty30 }] : [];
+    }
+
+    // Default: 12-pack only (or smallest available)
+    const pk12 = pickPackKeyByUnits(sku, 12);
+    if (pk12) {
+      const qty12 = Math.ceil(u / 12);
+      return qty12 > 0 ? [{ packKey: pk12, qty: qty12 }] : [];
+    }
+
+    // Fallback: use the largest pack
+    const keys = DATA.packs_by_sku[sku] || [];
+    if (keys.length === 0) return [];
+    const pk = keys[keys.length - 1];
+    const up = Number(getPack(pk).units_per_pack);
+    const qty = Math.ceil(u / up);
+    return qty > 0 ? [{ packKey: pk, qty }] : [];
+  }
+
+  function computeBundlePacks(unitsBySku, applyDiscount) {
+    const lines = [];
+    let distinct = 0;
+    let totalRrp = 0;
+    let totalDisc = 0;
+
+    for (const sku of SKUS_ORDER) {
+      const unitsNeeded = Number(unitsBySku[sku] ?? 0);
+      const packs = packsForSku(sku, unitsNeeded);
+      for (const p of packs) {
+        const pack = getPack(p.packKey);
+        const units = p.qty * Number(pack.units_per_pack);
+        const cost = p.qty * Number(pack.rrp_gbp);
+        const costDisc = applyDiscount ? cost * (1 - DATA.meta.discount_first_order) : cost;
+        if (p.qty > 0) distinct += 1;
+        totalRrp += cost;
+        totalDisc += costDisc;
+        lines.push({
+          packKey: p.packKey,
+          sku: pack.sku,
+          packOption: pack.pack_option,
+          qty: p.qty,
+          unitsIncluded: units,
+          unitsNeeded,
+          overshoot: units - unitsNeeded,
+          rrp: cost,
+          discounted: costDisc,
+          url: pack.url,
+        });
+      }
+    }
+
+    return {
+      lines,
+      distinctItems: distinct,
+      totalRrp,
+      totalDiscounted: totalDisc,
+      meetsMin: distinct >= DATA.meta.bundle_min_distinct_items,
+    };
+  }
+
+  
+  // ----- Schedule + bottle logic -----
+  const DRINK_SKUS = ["MIXPLUS", "MIX60", "MIX90", "MIX90_CAFF"];
+  const SOLID_SKUS = ["GEL30", "GEL30_CAFF", "GEL50", "BAR30", "BAR50", "SLT07_500", "SLT07_1000", "SLTPLUS"];
+
+  const SKU_SHORT = {
+    MIXPLUS: "MIX+",
+    MIX60: "MIX60",
+    MIX90: "MIX90",
+    MIX90_CAFF: "MIX90+C",
+    GEL30: "GEL30",
+    GEL30_CAFF: "GEL30+C",
+    GEL50: "GEL50",
+    BAR30: "BAR30",
+    BAR50: "BAR50",
+    SLT07_500: "SLT500",
+    SLT07_1000: "SLT1000",
+    SLTPLUS: "SLT+",
+  };
+
+  function computeBottlePlan(targets, plan, totals) {
+    const durH = Number(state.planner.durationH);
+    const bottleSizeMl = clamp(Number(state.planner.bottleSizeMl || 750), 200, 2000);
+    const fluidMlph = Number(targets.fluidTargetMlph);
+
+    const totalFluidMl = fluidMlph * durH;
+    const bottlesTotal = totalFluidMl / bottleSizeMl;
+    const bottleCount = Math.max(1, Math.ceil(bottlesTotal - 1e-9));
+
+    const servingsTotalBySku = {};
+    const servingsPerBottleBySku = {};
+    let carbsPerBottle = 0;
+    let sodiumPerBottle = 0;
+    let caffeinePerBottle = 0;
+
+    // Use *exact* drink servings for concentration (can be fractional).
+    // Pack counts in the bundle builder are still rounded up to whole units.
+    for (const sku of DRINK_SKUS) {
+      const perH = Number(plan?.perHour?.[sku] ?? 0);
+      const units = perH * durH;
+      if (units <= 0) continue;
+      const prod = getProduct(sku);
+      servingsTotalBySku[sku] = units;
+      const spb = units / bottleCount;
+      servingsPerBottleBySku[sku] = spb;
+      carbsPerBottle += spb * Number(prod.carbs_g);
+      sodiumPerBottle += spb * Number(prod.sodium_mg);
+      caffeinePerBottle += spb * Number(prod.caffeine_mg);
+    }
+
+    const carbsPerL = carbsPerBottle / (bottleSizeMl / 1000);
+    const sodiumPerL = sodiumPerBottle / (bottleSizeMl / 1000);
+
+    const warnings = [];
+    if (carbsPerL > 180) warnings.push("Very concentrated drink (>180 g/L). Consider more fluid or shifting carbs to gels/bars.");
+    if (carbsPerL > 120 && carbsPerL <= 180) warnings.push("High concentration (>120 g/L). Practise in training and sip steadily.");
+    if (carbsPerL < 30 && carbsPerBottle > 0) warnings.push("Very dilute drink (<30 g/L). That’s fine — most carbs come from gels/bars.");
+
+    return {
+      bottleSizeMl,
+      bottleCount,
+      bottlesPerHour: fluidMlph / bottleSizeMl,
+      fluidMlph,
+      totalFluidMl,
+      servingsTotalBySku,
+      servingsPerBottleBySku,
+      carbsPerBottle,
+      sodiumPerBottle,
+      caffeinePerBottle,
+      carbsPerL,
+      sodiumPerL,
+      warnings,
+    };
+  }
+
+  function buildSchedule(targets, totals) {
+    const intervalMin = 30;
+    const durH = Number(state.planner.durationH);
+    const durMin = Math.round(durH * 60);
+    const nSlots = Math.max(1, Math.ceil(durMin / intervalMin));
+
+    // Segment lengths (last slot can be shorter)
+    const segMins = Array.from({ length: nSlots }, (_, i) => {
+      const start = i * intervalMin;
+      return Math.max(0, Math.min(intervalMin, durMin - start));
+    });
+
+    const totalSeg = segMins.reduce((a, b) => a + b, 0);
+
+    function distributeWeighted(total) {
+      const T = Math.max(0, Math.floor(total || 0));
+      const out = Array(nSlots).fill(0);
+      let cum = 0;
+      for (let i = 0; i < nSlots; i++) {
+        const prev = cum;
+        cum += segMins[i];
+        const a = Math.floor((T * cum) / totalSeg);
+        const b = Math.floor((T * prev) / totalSeg);
+        out[i] = a - b;
+      }
+      return out;
+    }
+
+    const alloc = {};
+    for (const sku of SOLID_SKUS) {
+      alloc[sku] = distributeWeighted(Number(totals[sku] ?? 0));
+    }
+
+    const slots = [];
+    for (let i = 0; i < nSlots; i++) {
+      const tMin = i * intervalMin;
+      const seg = segMins[i];
+      const drinkMl = (Number(targets.fluidTargetMlph) * seg) / 60;
+      const items = [];
+      for (const sku of SOLID_SKUS) {
+        const q = alloc[sku][i] || 0;
+        if (q > 0) items.push({ sku, qty: q });
+      }
+      slots.push({
+        index: i,
+        tMin,
+        segMin: seg,
+        time: formatHhMm(tMin / 60),
+        drinkMl,
+        items,
+      });
+    }
+
+    return { intervalMin, durMin, slots };
+  }
+
+  function scheduleToText(schedule, bottlePlan) {
+    const lines = [];
+    lines.push(`STYRKR schedule (every ${schedule.intervalMin} min)`);
+    lines.push(`Bottle: ${Math.round(bottlePlan.bottleSizeMl)}ml · Drink: ${Math.round(bottlePlan.fluidMlph)}ml/h`);
+    lines.push("");
+    for (const s of schedule.slots) {
+      const parts = [];
+      parts.push(`Drink ${Math.round(s.drinkMl)}ml`);
+      for (const it of s.items) {
+        parts.push(`${SKU_SHORT[it.sku] || it.sku} ×${it.qty}`);
+      }
+      lines.push(`${s.time}  ${parts.join(" · ")}`);
+    }
+    return lines.join("\n");
+  }
+
+  // ----- Bundle Builder prefill + checkout bridge -----
+  function buildByobPrefillUrl(bundle) {
+    // Recharge Bundles V1 prefill format:
+    //   ?contents=productId:variantId:quantity,productId:variantId:quantity,...
+    // Each token maps one pack line; quantities > pack size are expressed as
+    // multiple packs, so we pass qty directly (1 pack = 1 unit in the bundle widget).
+    const parts = [];
+    for (const line of bundle.lines) {
+      if (!line.qty || line.qty <= 0) continue;
+      const pack = getPack(line.packKey);
+      if (!pack || !pack.rc_variant_id || !pack.rc_product_id) {
+        console.warn("[STYRKR] No Recharge IDs for pack:", line.packKey);
+        continue;
+      }
+      // contents token: productId:variantId:quantity
+      parts.push(`${pack.rc_product_id}:${pack.rc_variant_id}:${line.qty}`);
+    }
+
+    const base = "https://styrkr.com/products/build-your-own-bundle";
+    if (!parts.length) return base;
+    return `${base}?contents=${encodeURIComponent(parts.join(","))}`;
+  }
+
+  function setPrefillCtas(bundle, elOpen, elCopy, elNote) {
+    if (!elOpen) return;
+    const url = bundle.lines.length ? buildByobPrefillUrl(bundle) : "https://styrkr.com/products/build-your-own-bundle";
+    elOpen.href = url;
+
+    if (elCopy) {
+      elCopy.onclick = async () => {
+        try {
+          await toClipboard(url);
+          if (elNote) {
+            elNote.style.display = "block";
+            elNote.textContent = "Prefill link copied.";
+          }
+        } catch (e) {
+          if (elNote) {
+            elNote.style.display = "block";
+            elNote.textContent = "Copy failed (browser blocked clipboard).";
+          }
+        }
+      };
+    }
+  }
+
+  async function addBundleToCart(bundle, noteEl, byobFallbackUrl) {
+    if (!bundle.lines.length) return;
+
+    const isOnShopify = (location.hostname || "").toLowerCase().includes("styrkr");
+
+    function setNote(msg, isError) {
+      if (!noteEl) return;
+      noteEl.style.display = "block";
+      noteEl.className = "notice" + (isError ? " notice--warn" : " notice--green");
+      noteEl.innerHTML = msg;
+    }
+
+    // If not on Shopify, surface the BYOB URL directly
+    if (!isOnShopify) {
+      if (byobFallbackUrl) {
+        setNote(`<strong>Off-site mode:</strong> Cart API isn't available here. <a href="${byobFallbackUrl}" target="_blank" rel="noreferrer" style="color:var(--black);font-weight:700;">Open prefilled BYOB ↗</a>`, false);
+      } else {
+        setNote("Cart API only works when hosted on styrkr.com — use the 'Open BYOB' link instead.", false);
+      }
+      return;
+    }
+
+    setNote("Resolving products…");
+
+    async function fetchJson(url) {
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      return res.json();
+    }
+
+    function handleFromUrl(url, segment) {
+      const parts = url.split(`/${segment}/`);
+      if (parts.length < 2) return null;
+      return parts[1].split(/[?#\/]/)[0];
+    }
+
+    async function resolveVariantId(packKey, packOption, url) {
+      if (url.includes("/products/")) {
+        const handle = handleFromUrl(url, "products");
+        if (!handle) return null;
+        const product = await fetchJson(`/products/${handle}.js`);
+        const variants = product.variants || [];
+        if (!variants.length) return null;
+        const needle = String(packOption || "").toLowerCase().trim();
+        return (
+          variants.find((v) => String(v.title || "").toLowerCase().trim() === needle) ||
+          variants.find((v) => String(v.title || "").toLowerCase().includes(needle)) ||
+          variants.find((v) => String(v.option1 || "").toLowerCase().includes(needle)) ||
+          variants[0]
+        ).id;
+      }
+      // Fallback: collection — shouldn't happen now all URLs are direct product pages
+      if (url.includes("/collections/")) {
+        const col = handleFromUrl(url, "collections");
+        if (!col) return null;
+        const data = await fetchJson(`/collections/${col}/products.json?limit=250`);
+        const products = data.products || [];
+        if (!products.length) return null;
+        const variants = products[0].variants || [];
+        const needle = String(packOption || "").toLowerCase();
+        return (variants.find((v) => String(v.title || "").toLowerCase().includes(needle)) || variants[0]).id;
+      }
+      return null;
+    }
+
+    // Resolve all variants in parallel for speed
+    const resolved = await Promise.allSettled(
+      bundle.lines
+        .filter((l) => l.qty > 0)
+        .map(async (line) => {
+          const pack = getPack(line.packKey);
+          const variantId = await resolveVariantId(line.packKey, pack.pack_option, line.url);
+          if (!variantId) throw new Error(`No variant for ${line.packKey}`);
+          return { id: variantId, quantity: line.qty };
+        })
+    );
+
+    const items = resolved.filter((r) => r.status === "fulfilled").map((r) => r.value);
+    const failed = resolved.filter((r) => r.status === "rejected").map((r) => r.reason?.message);
+
+    if (failed.length) console.warn("[STYRKR Fuel Tool] Variant resolution issues:", failed);
+
+    if (!items.length) {
+      const fallbackMsg = byobFallbackUrl
+        ? `Could not resolve variants. <a href="${byobFallbackUrl}" target="_blank" rel="noreferrer" style="font-weight:700;">Open BYOB instead ↗</a>`
+        : "Could not resolve any pack variants. Check the BYOB URLs in data.js.";
+      setNote(fallbackMsg, true);
+      return;
+    }
+
+    setNote(`Adding ${items.length} item${items.length > 1 ? "s" : ""} to cart…`);
+
+    try {
+      const res = await fetch("/cart/add.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ items }),
+      });
+
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => "");
+        throw new Error(`Cart API returned ${res.status}: ${errBody.slice(0, 120)}`);
+      }
+
+      // Try to open cart drawer (STYRKR theme uses toggleElement / cartDrawer)
+      try {
+        if (typeof cartDrawer !== "undefined" && typeof toggleElement === "function") {
+          updateCart && await updateCart();
+          toggleElement(cartDrawer);
+          setNote("Added to cart.", false);
+          return;
+        }
+      } catch (_) {}
+
+      setNote("Added to cart — redirecting…");
+      setTimeout(() => { window.location.href = "/cart"; }, 600);
+
+    } catch (err) {
+      console.error("[STYRKR Fuel Tool] Cart add failed:", err);
+      const fallbackMsg = byobFallbackUrl
+        ? `Add to cart failed. <a href="${byobFallbackUrl}" target="_blank" rel="noreferrer" style="font-weight:700;">Open BYOB instead ↗</a> <span style="color:var(--text-grey);font-size:11px;">(${err.message})</span>`
+        : `Add to cart failed: ${err.message}`;
+      setNote(fallbackMsg, true);
+    }
+  }
+
+
+// ----- Rendering -----
+  function renderSummary(targets, plan, totals) {
+    const dur = Number(state.planner.durationH);
+    const totalCarbs = targets.carbTargetGph * dur;
+    const totalFluidL = (targets.fluidTargetMlph * dur) / 1000;
+    const totalSodium = targets.sodiumTargetMgph * dur;
+
+    const totalCaff = Math.round(plan.debug.caffeineMgph * dur);
+
+    const cards = [
+      {
+        k: "Carbs",
+        v: `${fmt(targets.carbTargetGph, 0)} <small>g/h</small>`,
+        n: `Total: ${fmt(totalCarbs, 0)} g · Mode cap: ${fmt(targets.carbCap, 0)} g/h`,
+      },
+      {
+        k: "Fluids",
+        v: `${fmt(targets.fluidTargetMlph, 0)} <small>ml/h</small>`,
+        n: `Total: ${fmt(totalFluidL, 1)} L · Bottles/h: ${fmt(targets.fluidTargetMlph / Number(state.planner.bottleSizeMl || 750), 2)} · Band: ${targets.band}`,
+      },
+      {
+        k: "Sodium",
+        v: `${fmt(targets.sodiumTargetMgph, 0)} <small>mg/h</small>`,
+        n: `Sweat: ${fmt(targets.sweatNaMgL, 0)} mg/L · Replace: ${fmt(state.planner.sodiumRepl, 2)}`,
+      },
+      {
+        k: "Caffeine",
+        v: `${fmt(totalCaff, 0)} <small>mg</small>`,
+        n: `Protocol: ${state.planner.caffeineProtocol}${state.planner.caffeineProtocol === "Custom" ? ` (${fmt(targets.caffFrac, 2)})` : ""}`,
+      },
+    ];
+
+    const wrap = $("summaryCards");
+    wrap.innerHTML = cards
+      .map(
+        (c) => `
+        <div class="stat-card">
+          <div class="k">${c.k}</div>
+          <div class="v">${c.v}</div>
+          <div class="n">${c.n}</div>
+        </div>`
+      )
+      .join("");
+  }
+
+  function renderProductPlan(targets, plan, totals) {
+    const perHour = plan.perHour;
+    const dur = Number(state.planner.durationH);
+
+    const rows = [];
+    let carbsPerH = 0;
+    let sodiumPerH = 0;
+    let caffeinePerH = 0;
+
+    for (const sku of SKUS_ORDER) {
+      const rate = Number(perHour[sku] ?? 0);
+      const total = Number(totals[sku] ?? 0);
+      if (rate <= 0 && total <= 0) continue;
+
+      const prod = getProduct(sku);
+      const c = rate * Number(prod.carbs_g);
+      const na = rate * Number(prod.sodium_mg);
+      const caf = rate * Number(prod.caffeine_mg);
+
+      carbsPerH += c;
+      sodiumPerH += na;
+      caffeinePerH += caf;
+
+      const name = prod.name || sku;
+      const short = sku.replace("_", " ");
+      rows.push({
+        sku,
+        name,
+        short,
+        rate,
+        total,
+        c,
+        na,
+        caf,
+        url: prod.url,
+      });
+    }
+
+    const eventCarbs = carbsPerH * dur;
+    const eventSodium = sodiumPerH * dur;
+    const eventCaff = caffeinePerH * dur;
+
+    // Build per-hour rows in #fuelling-hours style
+    const hoursCount = Math.ceil(dur);
+    const hourRows = [];
+    for (let h = 0; h <= hoursCount; h++) {
+      const label = h === 0 ? "Start" : `Hour ${h}`;
+      const isNoFuel = h === 0 && rows.every(r => r.rate < 0.01);
+      const products = rows.filter(r => r.rate > 0).map(r => {
+        const perSlot = h === 0 ? 0 : r.rate; // nothing at start unless pre-loading
+        const display = h === 0
+          ? (r.rate > 0.5 ? `<a href="${r.url}" target="_blank" rel="noreferrer">${r.short}</a>` : "")
+          : `<a href="${r.url}" target="_blank" rel="noreferrer">${r.short}</a>${r.rate !== 1 ? ` <span class="dim">×${fmt(r.rate,2)}</span>` : ""}`;
+        return display;
+      }).filter(Boolean);
+
+      hourRows.push(`
+        <tr${isNoFuel || products.length === 0 ? ' class="no-fuel"' : ""}>
+          <td class="tbl-time"><span>${label}</span></td>
+          <td class="tbl-product">${products.length ? products.join("<br>") : '<span class="dim">—</span>'}</td>
+        </tr>`);
+    }
+
+    // Stats footer
+    const statsRows = [
+      `<tr><td>Carbs from products</td><td>${fmt(carbsPerH, 0)} g/h · ${fmt(carbsPerH * dur, 0)} g total</td></tr>`,
+      `<tr><td>Sodium from products</td><td>${fmt(sodiumPerH, 0)} mg/h · ${fmt(sodiumPerH * dur, 0)} mg total</td></tr>`,
+      `<tr><td>Caffeine from products</td><td>${fmt(caffeinePerH, 0)} mg/h · ${fmt(caffeinePerH * dur, 0)} mg total</td></tr>`,
+    ].join("");
+
+    const table = `
+      <table class="tbl">
+        <thead><tr><th>Time</th><th>Product</th></tr></thead>
+        <tbody>${hourRows.join("")}</tbody>
+      </table>
+      <table class="tbl-stats"><tbody>${statsRows}</tbody></table>
+    `;
+
+    $("productPlan").innerHTML = table;
+
+    // Notes about fluids vs mixed drink volume
+    const drinkMlph = plan.debug.drinkMlph;
+    const extraWater = targets.fluidTargetMlph - drinkMlph;
+
+    const notes = [];
+    notes.push(`<strong>Drink volume:</strong> plan mixes ~${fmt(drinkMlph, 0)} ml/h. Fluid target is ${fmt(targets.fluidTargetMlph, 0)} ml/h.`);
+notes.push(`<strong>From products:</strong> ~${fmt(carbsPerH,0)} g/h carbs · ${fmt(sodiumPerH,0)} mg/h sodium · ${fmt(caffeinePerH,0)} mg/h caffeine.`);
+    notes.push(`<strong>Over ${fmt(dur,2)} h:</strong> ~${fmt(eventCarbs,0)} g carbs · ${fmt(eventSodium,0)} mg sodium · ${fmt(eventCaff,0)} mg caffeine.`);
+
+    if (extraWater > 150) {
+      notes.push(`Top up with ~${fmt(extraWater, 0)} ml/h plain water (or dilute / sip more).`);
+    } else if (extraWater < -150) {
+      notes.push(`Your mix volume exceeds the fluid target by ~${fmt(Math.abs(extraWater), 0)} ml/h. Consider concentrating mixes or shifting carbs to gels/bars.`);
+    } else {
+      notes.push(`Drink volume is close to target (±150 ml/h).`);
+    }
+
+    const node = $("productNotes");
+    node.style.display = "block";
+    node.innerHTML = notes.join("<br />");
+  }
+
+  function renderBundleTable(bundle, applyDiscount) {
+    if (!bundle.lines.length) {
+      $("bundlePlan").innerHTML = `<div class="dim">No packs required for the current settings.</div>`;
+      return;
+    }
+
+    const rows = bundle.lines.map((l) => {
+      const pack = getPack(l.packKey);
+      const priceUnit = Number(pack.rrp_gbp) / Number(pack.units_per_pack);
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:700;">
+              <a href="${l.url}" target="_blank" rel="noreferrer">${l.packKey}</a>
+            </div>
+            <div class="dim">${pack.pack_option} · ${l.sku}</div>
+          </td>
+          <td class="num">${fmt(l.qty, 0)}</td>
+          <td class="num">${fmt(l.unitsIncluded, 0)}</td>
+          <td class="num">£${fmt(l.rrp, 2)}</td>
+          <td class="num">${applyDiscount ? `£${fmt(l.discounted, 2)}` : "—"}</td>
+        </tr>`;
+    });
+
+    const table = `
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Pack</th>
+            <th class="num">Qty</th>
+            <th class="num">Units</th>
+            <th class="num">RRP</th>
+            <th class="num">${applyDiscount ? "Sub (‑25%)" : "Sub"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.join("")}
+          <tr>
+            <td style="font-weight:700;">Total</td>
+            <td class="num">${fmt(bundle.distinctItems, 0)}<span class="dim"> items</span></td>
+            <td class="num">—</td>
+            <td class="num">£${fmt(bundle.totalRrp, 2)}</td>
+            <td class="num">${applyDiscount ? `£${fmt(bundle.totalDiscounted, 2)}` : "—"}</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    $("bundlePlan").innerHTML = table;
+
+    const noteEl = $("bundleNotes");
+    const notes = [];
+    if (applyDiscount) {
+      notes.push(`<strong>Discount:</strong> shown at ${fmt(DATA.meta.discount_first_order * 100, 0)}% off (first order).`);
+    } else {
+      notes.push(`<strong>Discount:</strong> off.`);
+    }
+
+    if (!bundle.meetsMin) {
+      notes.push(`<strong>BYOB rule:</strong> this list has ${bundle.distinctItems} item types. Minimum is ${DATA.meta.bundle_min_distinct_items}.`);
+      notes.push(`To meet the minimum, choose a more varied plan style (Balanced / Adventure-led) or add a second pack type.`);
+      noteEl.classList.add("notice--warn");
+    } else {
+      noteEl.classList.remove("notice--warn");
+      notes.push(`<strong>BYOB rule:</strong> meets the ${DATA.meta.bundle_min_distinct_items} item minimum.`);
+    }
+
+    noteEl.style.display = "block";
+    noteEl.innerHTML = notes.join("<br />");
+  }
+
+  function renderBundle30Summary(targets, perHourPlan) {
+    const sessions = Number(state.bundle.sessions30d);
+    const avgH = Number(state.bundle.avgSessionH);
+    const pct = Number(state.bundle.fuelledPct);
+
+    const hours = sessions * avgH;
+    const hoursAdj = hours * pct;
+
+    const out = `
+      <div class="notice">
+        <strong>Fuelled hours:</strong> ${fmt(hours, 2)} h / 30d<br/>
+        <strong>Adjusted (×${fmt(pct, 2)}):</strong> ${fmt(hoursAdj, 2)} h<br/>
+        <strong>Targets used:</strong> ${fmt(targets.carbTargetGph, 0)} g/h carbs · ${fmt(targets.sodiumTargetMgph, 0)} mg/h sodium · ${state.planner.planStyle}
+      </div>
+    `;
+    $("bundle30Out").innerHTML = out;
+    return hoursAdj;
+  }
+
+  function renderBundle30Packs(bundle, applyDiscount) {
+    if (!bundle.lines.length) {
+      $("bundle30Packs").innerHTML = `<div class="dim">No packs required for the current settings.</div>`;
+      return;
+    }
+
+    const rows = bundle.lines.map((l) => {
+      const pack = getPack(l.packKey);
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:700;">
+              <a href="${l.url}" target="_blank" rel="noreferrer">${l.packKey}</a>
+            </div>
+            <div class="dim">${pack.pack_option} · ${l.sku}</div>
+          </td>
+          <td class="num">${fmt(l.qty, 0)}</td>
+          <td class="num">${fmt(l.unitsIncluded, 0)}</td>
+          <td class="num">£${fmt(l.rrp, 2)}</td>
+          <td class="num">${applyDiscount ? `£${fmt(l.discounted, 2)}` : "—"}</td>
+        </tr>`;
+    });
+
+    const table = `
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Pack</th>
+            <th class="num">Qty</th>
+            <th class="num">Units</th>
+            <th class="num">RRP</th>
+            <th class="num">${applyDiscount ? "Sub (‑25%)" : "Sub"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.join("")}
+          <tr>
+            <td style="font-weight:700;">Total (30d)</td>
+            <td class="num">${fmt(bundle.distinctItems, 0)}<span class="dim"> items</span></td>
+            <td class="num">—</td>
+            <td class="num">£${fmt(bundle.totalRrp, 2)}</td>
+            <td class="num">${applyDiscount ? `£${fmt(bundle.totalDiscounted, 2)}` : "—"}</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    $("bundle30Packs").innerHTML = table;
+
+    const noteEl = $("bundle30Notes");
+    const notes = [];
+    if (!bundle.meetsMin) {
+      notes.push(`<strong>BYOB rule:</strong> this list has ${bundle.distinctItems} item types. Minimum is ${DATA.meta.bundle_min_distinct_items}.`);
+      notes.push(`Try a more varied plan style (Balanced / Adventure-led) to increase item count.`);
+      noteEl.classList.add("notice--warn");
+    } else {
+      noteEl.classList.remove("notice--warn");
+      notes.push(`<strong>BYOB rule:</strong> meets the ${DATA.meta.bundle_min_distinct_items} item minimum.`);
+    }
+
+    noteEl.style.display = "block";
+    noteEl.innerHTML = notes.join("<br />");
+  }
+
+  function renderBottlePlan(bottlePlan, targets) {
+    const lines = [];
+    lines.push(`<div class="notice">`);
+    lines.push(`<strong>Bottle size:</strong> ${fmt(bottlePlan.bottleSizeMl, 0)} ml<br/>`);
+    lines.push(`<strong>Fluid target:</strong> ${fmt(bottlePlan.fluidMlph, 0)} ml/h · Total: ${fmt(bottlePlan.totalFluidMl / 1000, 2)} L<br/>`);
+    lines.push(`<strong>Estimated bottles:</strong> ${fmt(bottlePlan.bottleCount, 0)} (based on total fluid ÷ bottle size)<br/>`);
+    lines.push(`<strong>Per bottle (avg):</strong> ${fmt(bottlePlan.carbsPerBottle, 1)} g carbs · ${fmt(bottlePlan.sodiumPerBottle, 0)} mg sodium`);
+    if (bottlePlan.caffeinePerBottle > 0) lines.push(` · ${fmt(bottlePlan.caffeinePerBottle, 0)} mg caffeine`);
+    lines.push(`<br/><span class="dim">Concentration:</span> ${fmt(bottlePlan.carbsPerL, 0)} g/L carbs · ${fmt(bottlePlan.sodiumPerL, 0)} mg/L sodium`);
+    lines.push(`<br/><span class="dim">Note:</span> Mix servings can be fractional for concentration. Bundle Builder rounds packs up to whole units.`);
+    lines.push(`</div>`);
+
+    const mixRows = Object.entries(bottlePlan.servingsTotalBySku).map(([sku, total]) => {
+      const spb = bottlePlan.servingsPerBottleBySku[sku];
+      const prod = getProduct(sku);
+      const label = SKU_SHORT[sku] || sku;
+      return `
+        <tr>
+          <td><strong>${label}</strong><div class="dim">${prod.name || ""}</div></td>
+          <td class="num">${fmt(total, 2)}</td>
+          <td class="num">${fmt(spb, 2)}</td>
+        </tr>
+      `;
+    });
+
+    const table =
+      mixRows.length > 0
+        ? `
+      <table class="tbl tbl--compact">
+        <thead>
+          <tr>
+            <th>Mix</th>
+            <th class="num">Total servings</th>
+            <th class="num">Servings / bottle</th>
+          </tr>
+        </thead>
+        <tbody>${mixRows.join("")}</tbody>
+      </table>`
+        : `<div class="dim">No drink mix in the current plan (all carbs from gels/bars).</div>`;
+
+    const warn = bottlePlan.warnings.length
+      ? `<div class="notice notice--warn" style="margin-top: var(--s-3);">${bottlePlan.warnings.join("<br/>")}</div>`
+      : "";
+
+    $("bottlePlanOut").innerHTML = lines.join("") + table + warn;
+  }
+
+  function renderSchedule(schedule, bottlePlan) {
+    const rows = schedule.slots.map((s) => {
+      const drink = `${fmt(s.drinkMl, 0)} ml`;
+      const items = s.items
+        .map((it) => {
+          const prod = getProduct(it.sku);
+          const label = SKU_SHORT[it.sku] || it.sku;
+          return `${label} ×${it.qty}<span class="dim">(${prod.carbs_g}g)</span>`;
+        })
+        .join("<br/>");
+
+      return `
+        <tr>
+          <td class="tbl-time"><span>${s.time}</span></td>
+          <td class="num">${drink}</td>
+          <td>${items || '<span class="dim">—</span>'}</td>
+        </tr>
+      `;
+    });
+
+    const table = `
+      <table class="tbl tbl--compact">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th class="num" style="width:120px;">Drink</th>
+            <th>Take</th>
+          </tr>
+        </thead>
+        <tbody>${rows.join("")}</tbody>
+      </table>
+    `;
+    $("scheduleOut").innerHTML = table;
+
+    const copyBtn = $("copyScheduleBtn");
+    if (copyBtn) {
+      copyBtn.onclick = async () => {
+        const txt = scheduleToText(schedule, bottlePlan);
+        try {
+          await toClipboard(txt);
+          copyBtn.textContent = "Copied";
+          setTimeout(() => (copyBtn.textContent = "Copy"), 1200);
+        } catch (e) {
+          copyBtn.textContent = "Copy failed";
+          setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
+        }
+      };
+    }
+  }
+
+  function generateFuelCardPng(targets, plan, totals, schedule, bottlePlan) {
+    const W = 1080;
+    const H = 1920;
+    const m = 72;
+    const gutter = 40;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    // Background
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, W, H);
+
+    function text(x, y, str, font, alpha = 1, align = "left") {
+      ctx.globalAlpha = alpha;
+      ctx.font = font;
+      ctx.textAlign = align;
+      ctx.fillStyle = "#fff";
+      ctx.fillText(str, x, y);
+      ctx.globalAlpha = 1;
+    }
+
+    function wrap(x, y, str, maxW, lineH, font, alpha = 1) {
+      ctx.font = font;
+      ctx.fillStyle = "#fff";
+      ctx.globalAlpha = alpha;
+      const words = String(str).split(/\s+/);
+      let line = "";
+      let yy = y;
+      for (const w of words) {
+        const test = line ? line + " " + w : w;
+        if (ctx.measureText(test).width > maxW && line) {
+          ctx.fillText(line, x, yy);
+          line = w;
+          yy += lineH;
+        } else {
+          line = test;
+        }
+      }
+      if (line) ctx.fillText(line, x, yy);
+      ctx.globalAlpha = 1;
+      return yy + lineH;
+    }
+
+    // Header
+    text(m, 120, "STYRKR", '700 84px "Helvetica Neue", Arial, system-ui');
+    text(m, 162, "Fuel Card", '400 32px "Helvetica Neue", Arial, system-ui', 0.85);
+    text(W - m, 140, `${state.planner.activity} · ${fmt(state.planner.durationH, 2)}h`, '400 28px "Helvetica Neue", Arial, system-ui', 0.75, "right");
+
+    // Summary line
+    const totalCaff = Math.round(plan.debug.caffeineMgph * Number(state.planner.durationH));
+    const summary = `${fmt(targets.carbTargetGph, 0)} g/h carbs  ·  ${fmt(targets.fluidTargetMlph, 0)} ml/h fluids  ·  ${fmt(
+      targets.sodiumTargetMgph,
+      0
+    )} mg/h sodium  ·  ${totalCaff} mg caffeine`;
+    wrap(m, 220, summary, W - 2 * m, 34, '500 28px "Helvetica Neue", Arial, system-ui', 0.9);
+
+    // Bottle plan
+    const bottleStr = `Bottle: ${fmt(bottlePlan.bottleSizeMl, 0)} ml  ·  ~${fmt(bottlePlan.bottleCount, 0)} bottles  ·  ~${fmt(
+      bottlePlan.carbsPerBottle,
+      0
+    )} g carbs/bottle`;
+    wrap(m, 300, bottleStr, W - 2 * m, 32, '500 26px "Helvetica Neue", Arial, system-ui', 0.85);
+
+    // Divider
+    ctx.strokeStyle = "rgba(255,255,255,0.16)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(m, 340);
+    ctx.lineTo(W - m, 340);
+    ctx.stroke();
+
+    // Schedule block
+    text(m, 390, `Every ${schedule.intervalMin} min`, '700 34px "Helvetica Neue", Arial, system-ui', 0.95);
+
+    const lines = schedule.slots.map((s) => {
+      const parts = [];
+      parts.push(`Drink ${Math.round(s.drinkMl)}ml`);
+      for (const it of s.items) parts.push(`${SKU_SHORT[it.sku] || it.sku}×${it.qty}`);
+      return `${s.time}  ${parts.join(" · ")}`;
+    });
+
+    const cols = lines.length > 14 ? 2 : 1;
+    const rowsPerCol = Math.ceil(lines.length / cols);
+    const colW = (W - 2 * m - (cols - 1) * gutter) / cols;
+
+    const topY = 450;
+    const bottomY = H - 120;
+    const availH = bottomY - topY;
+    const rowH = Math.max(22, Math.floor(availH / rowsPerCol));
+    const fontSize = clamp(rowH - 8, 16, 30);
+
+    ctx.font = `500 ${fontSize}px "Helvetica Neue", Arial, system-ui`;
+    ctx.fillStyle = "#fff";
+    ctx.textAlign = "left";
+    ctx.globalAlpha = 0.92;
+
+    for (let c = 0; c < cols; c++) {
+      const x = m + c * (colW + gutter);
+      let y = topY;
+      for (let r = 0; r < rowsPerCol; r++) {
+        const idx = c * rowsPerCol + r;
+        if (idx >= lines.length) break;
+        const line = lines[idx];
+        // truncate if needed
+        let txt = line;
+        while (ctx.measureText(txt).width > colW && txt.length > 10) {
+          txt = txt.slice(0, -2);
+        }
+        if (txt !== line) txt = txt + "…";
+        ctx.fillText(txt, x, y);
+        y += rowH;
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // Footer
+    text(m, H - 60, "Generated by STYRKR Fuel Tool", '400 22px "Helvetica Neue", Arial, system-ui', 0.65);
+    text(W - m, H - 60, new Date().toISOString().slice(0, 10), '400 22px "Helvetica Neue", Arial, system-ui', 0.65, "right");
+
+    return canvas.toDataURL("image/png");
+  }
+
+  function renderScheduleView(targets, plan, totals) {
+    if (!$("bottlePlanOut") || !$("scheduleOut")) return;
+
+    const bottlePlan = computeBottlePlan(targets, plan, totals);
+    const schedule = buildSchedule(targets, totals);
+
+    renderBottlePlan(bottlePlan, targets);
+    renderSchedule(schedule, bottlePlan);
+
+    const genBtn = $("generateCardBtn");
+    const dl = $("downloadCardLink");
+    const img = $("cardPreviewImg");
+
+    if (genBtn) {
+      genBtn.onclick = () => {
+        const url = generateFuelCardPng(targets, plan, totals, schedule, bottlePlan);
+        if (!url) return;
+        if (img) img.src = url;
+        if (dl) {
+          dl.href = url;
+          dl.style.display = "inline-flex";
+        }
+      };
+    }
+  }
+
+  // ----- UI Wiring -----
+  function setView(view) {
+    // Lock non-planner tabs until lead capture is complete
+    let nextView = view;
+    if (!state.lead.unlocked && nextView !== "planner") {
+      nextView = "planner";
+      setStep(4);
+    }
+
+    state.view = nextView;
+    document.querySelectorAll(".nav-tab").forEach((b) => {
+      b.classList.toggle("is-active", b.dataset.view === nextView);
+      b.setAttribute("aria-selected", b.dataset.view === nextView ? "true" : "false");
+    });
+    document.querySelectorAll(".view").forEach((v) => v.classList.toggle("is-active", v.id === `view-${nextView}`));
+    applyLockState();
+    render(); // keep outputs fresh
+  }
+
+  function applyLockState() {
+    const locked = !state.lead.unlocked;
+
+    // Right-panel blur overlay
+    const lock = $("planLock");
+    if (lock) lock.classList.toggle("is-locked", locked);
+
+    const overlay = $("planLockOverlay");
+    if (overlay) overlay.setAttribute("aria-hidden", locked ? "false" : "true");
+
+    // Tabs
+    document.querySelectorAll(".nav-tab").forEach((b) => {
+      const v = String(b.dataset.view || "");
+      const shouldDisable = locked && v !== "planner";
+      b.disabled = shouldDisable;
+      b.title = shouldDisable ? "Unlock the plan in Step 5 to access this tab." : "";
+    });
+
+    // Keep CTA copy consistent
+    setStep(state.step);
+  }
+
+  function attemptUnlock() {
+    const nameEl = $("leadName");
+    const emailEl = $("leadEmail");
+    const errEl = $("leadError");
+
+    const name = nameEl ? nameEl.value : state.lead.name;
+    const email = emailEl ? emailEl.value : state.lead.email;
+    const v = validateLeadInputs(name, email);
+
+    if (!v.ok) {
+      if (errEl) {
+        errEl.style.display = "block";
+        errEl.textContent = v.message;
+      }
+      return false;
+    }
+
+    if (errEl) {
+      errEl.style.display = "none";
+      errEl.textContent = "";
+    }
+
+    state.lead.name = String(name || "").trim();
+    state.lead.email = String(email || "").trim();
+    state.lead.unlocked = true;
+    state.lead.capturedAt = new Date().toISOString();
+    saveLead();
+
+    // Analytics / integration hook (no-op unless listened for)
+    try {
+      window.dispatchEvent(
+        new CustomEvent("styrkr_fueltool_lead_capture", {
+          detail: {
+            name: state.lead.name,
+            email: state.lead.email,
+            capturedAt: state.lead.capturedAt,
+            localMode: isLocalMode(),
+          },
+        })
+      );
+    } catch (_) {}
+
+    applyLockState();
+    return true;
+  }
+
+  function setStep(step) {
+    state.step = clamp(step, 0, 4);
+    document.querySelectorAll(".step-btn").forEach((b) => b.classList.toggle("is-active", Number(b.dataset.step) === state.step));
+    document.querySelectorAll(".step-pane").forEach((p) => p.classList.toggle("is-active", Number(p.dataset.step) === state.step));
+
+    $("prevBtn").style.visibility = state.step === 0 ? "hidden" : "visible";
+    if (state.step === 4) {
+      $("nextBtn").textContent = state.lead.unlocked ? "Done" : "Unlock plan";
+    } else {
+      $("nextBtn").textContent = "Next";
+    }
+  }
+
+  function wirePlannerInputs() {
+    // Populate selects
+    const activitySel = $("activity");
+    activitySel.innerHTML = Object.keys(DATA.rules.activity_multiplier)
+      .map((k) => `<option value="${k}">${k}</option>`)
+      .join("");
+
+    const condSel = $("conditions");
+    condSel.innerHTML = Object.keys(DATA.rules.conditions_fluid_adj_mlph)
+      .map((k) => `<option value="${k}">${k}</option>`)
+      .join("");
+
+    const bottleSel = $("bottleSizeMl");
+    const bottleOptions = [250, 330, 500, 600, 750, 1000];
+    if (bottleSel) {
+      bottleSel.innerHTML = bottleOptions.map((v) => `<option value="${v}">${v} ml</option>`).join("");
+    }
+
+    const sweatSel = $("sweatRate");
+    sweatSel.innerHTML = Object.keys(DATA.rules.sweat_rate_mlph)
+      .map((k) => `<option value="${k}">${k}</option>`)
+      .join("");
+
+    const saltSel = $("sweatSalt");
+    saltSel.innerHTML = Object.keys(DATA.rules.sweat_sodium_mgL)
+      .map((k) => `<option value="${k}">${k}</option>`)
+      .join("");
+
+    const carbModeSel = $("carbMode");
+    carbModeSel.innerHTML = Object.keys(DATA.rules.carb_mode_caps)
+      .map((k) => `<option value="${k}">${k}</option>`)
+      .join("");
+
+    const cafSel = $("caffeineProtocol");
+    const cafOptions = [...Object.keys(DATA.rules.caffeine_fraction), "Custom"];
+    cafSel.innerHTML = cafOptions.map((k) => `<option value="${k}">${k}</option>`).join("");
+
+    // Plan style cards
+    const grid = $("planStyleGrid");
+    const styles = Object.entries(DATA.rules.plan_styles);
+    grid.innerHTML = styles
+      .map(([k, v]) => {
+        const meta = [
+          `${Math.round(v.drink_share * 100)}% drinks`,
+          `${Math.round(v.gel_share * 100)}% gels`,
+          `${Math.round(v.bar_share * 100)}% bars`,
+        ];
+        return `
+          <div class="choice-card" data-style="${k}" tabindex="0" role="button" aria-label="Select ${k}">
+            <div class="choice-card__title">${k}</div>
+            <div class="choice-card__desc">${v.description}</div>
+            <div class="choice-card__tags">${meta.map((m) => `<span>${m}</span>`).join("")}</div>
+          </div>
+        `;
+      })
+      .join("");
+
+    // Defaults
+    activitySel.value = state.planner.activity;
+    $("durationH").value = state.planner.durationH;
+    $("rpe").value = state.planner.rpe;
+    $("rpeVal").textContent = fmt(state.planner.rpe, 1);
+    condSel.value = state.planner.conditions;
+    if (bottleSel) bottleSel.value = String(state.planner.bottleSizeMl || 750);
+    sweatSel.value = state.planner.sweatRate;
+    saltSel.value = state.planner.sweatSalt;
+    carbModeSel.value = state.planner.carbMode;
+    cafSel.value = state.planner.caffeineProtocol;
+    $("sodiumRepl").value = state.planner.sodiumRepl;
+    $("sodiumReplVal").textContent = fmt(state.planner.sodiumRepl, 2);
+    $("applyDiscount").checked = state.planner.applyDiscount;
+
+    // Select plan style card
+    function markStyle() {
+      document.querySelectorAll(".choice-card").forEach((c) => c.classList.toggle("is-selected", c.dataset.style === state.planner.planStyle));
+    }
+    markStyle();
+
+    // Listeners
+    activitySel.addEventListener("change", (e) => {
+      state.planner.activity = e.target.value;
+      render();
+    });
+
+    $("durationH").addEventListener("input", (e) => {
+      state.planner.durationH = clamp(Number(e.target.value || 0), 0.25, 48);
+      render();
+    });
+
+    $("rpe").addEventListener("input", (e) => {
+      state.planner.rpe = Number(e.target.value || 5);
+      $("rpeVal").textContent = fmt(state.planner.rpe, 1);
+      render();
+    });
+
+    condSel.addEventListener("change", (e) => {
+      state.planner.conditions = e.target.value;
+      render();
+    });
+
+    if (bottleSel) {
+      bottleSel.addEventListener("change", (e) => {
+        state.planner.bottleSizeMl = clamp(Number(e.target.value || 750), 200, 2000);
+        render();
+      });
+    }
+
+    sweatSel.addEventListener("change", (e) => {
+      state.planner.sweatRate = e.target.value;
+      render();
+    });
+
+    saltSel.addEventListener("change", (e) => {
+      state.planner.sweatSalt = e.target.value;
+      render();
+    });
+
+    $("sodiumRepl").addEventListener("input", (e) => {
+      state.planner.sodiumRepl = Number(e.target.value || 0.5);
+      $("sodiumReplVal").textContent = fmt(state.planner.sodiumRepl, 2);
+      render();
+    });
+
+    carbModeSel.addEventListener("change", (e) => {
+      state.planner.carbMode = e.target.value;
+      render();
+    });
+
+    cafSel.addEventListener("change", (e) => {
+      state.planner.caffeineProtocol = e.target.value;
+      const show = state.planner.caffeineProtocol === "Custom";
+      $("caffeineCustomWrap").style.display = show ? "block" : "none";
+      render();
+    });
+
+    $("caffeineCustom").addEventListener("input", (e) => {
+      state.planner.caffeineCustom = Number(e.target.value || 0);
+      $("caffeineCustomVal").textContent = fmt(state.planner.caffeineCustom, 2);
+      render();
+    });
+
+    $("applyDiscount").addEventListener("change", (e) => {
+      state.planner.applyDiscount = !!e.target.checked;
+      render();
+    });
+
+    // Style card selection
+    grid.addEventListener("click", (e) => {
+      const card = e.target.closest(".choice-card");
+      if (!card) return;
+      state.planner.planStyle = card.dataset.style;
+      markStyle();
+      render();
+    });
+    grid.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const card = e.target.closest(".choice-card");
+      if (!card) return;
+      state.planner.planStyle = card.dataset.style;
+      markStyle();
+      render();
+    });
+
+    // Stepper
+    document.querySelectorAll(".step-btn").forEach((b) => {
+      b.addEventListener("click", () => setStep(Number(b.dataset.step)));
+    });
+    $("prevBtn").addEventListener("click", () => setStep(state.step - 1));
+
+    $("nextBtn").addEventListener("click", () => {
+      if (state.step < 4) {
+        setStep(state.step + 1);
+        return;
+      }
+
+      // Step 5: lead capture + unlock
+      if (!state.lead.unlocked) {
+        const ok = attemptUnlock();
+        if (ok) setView("schedule");
+        return;
+      }
+
+      // Already unlocked: treat "Done" as a forward action
+      setView("schedule");
+    });
+
+    // Ensure custom caffeine UI reflects default
+    $("caffeineCustomVal").textContent = fmt(state.planner.caffeineCustom, 2);
+    $("caffeineCustomWrap").style.display = state.planner.caffeineProtocol === "Custom" ? "block" : "none";
+
+    // Lead capture defaults
+    const leadName = $("leadName");
+    const leadEmail = $("leadEmail");
+    if (leadName) leadName.value = state.lead.name || "";
+    if (leadEmail) leadEmail.value = state.lead.email || "";
+
+    // Keep state in sync (even before unlock)
+    if (leadName) {
+      leadName.addEventListener("input", (e) => {
+        state.lead.name = String(e.target.value || "");
+      });
+    }
+    if (leadEmail) {
+      leadEmail.addEventListener("input", (e) => {
+        state.lead.email = String(e.target.value || "");
+      });
+    }
+
+    // Plan lock overlay CTA
+    const go = $("goToDetailsBtn");
+    if (go) {
+      go.addEventListener("click", () => {
+        setView("planner");
+        setStep(4);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  }
+
+  function wireBundleInputs() {
+    const sess = $("sessions30d");
+    const avg = $("avgSessionH");
+    const pct = $("fuelledPct");
+    const pctVal = $("fuelledPctVal");
+    const disc = $("bundleDiscount");
+
+    sess.value = state.bundle.sessions30d;
+    avg.value = state.bundle.avgSessionH;
+    pct.value = state.bundle.fuelledPct;
+    pctVal.textContent = fmt(state.bundle.fuelledPct, 2);
+    disc.checked = state.bundle.applyDiscount;
+
+    sess.addEventListener("input", (e) => {
+      state.bundle.sessions30d = clamp(Number(e.target.value || 0), 0, 60);
+      render();
+    });
+    avg.addEventListener("input", (e) => {
+      state.bundle.avgSessionH = clamp(Number(e.target.value || 0), 0.25, 12);
+      render();
+    });
+    pct.addEventListener("input", (e) => {
+      state.bundle.fuelledPct = clamp(Number(e.target.value || 0), 0, 1);
+      pctVal.textContent = fmt(state.bundle.fuelledPct, 2);
+      render();
+    });
+    disc.addEventListener("change", (e) => {
+      state.bundle.applyDiscount = !!e.target.checked;
+      render();
+    });
+  }
+
+  function wireNav() {
+    document.querySelectorAll(".nav-tab").forEach((b) => {
+      b.addEventListener("click", () => setView(b.dataset.view));
+    });
+  }
+
+  function wireTheme() {
+    const btn = $("themeToggle");
+    btn.addEventListener("click", () => {
+      const isLight = document.body.classList.toggle("theme-dark");
+      btn.textContent = document.body.classList.contains("theme-dark") ? "Light" : "Dark";
+    });
+  }
+
+  // ----- Main render -----
+  function render() {
+    const targets = computeTargets();
+    const plan = computePlanPerHour(targets);
+    const totals = computeEventTotals(plan.perHour);
+
+    renderSummary(targets, plan, totals);
+    renderProductPlan(targets, plan, totals);
+
+    const bundle = computeBundlePacks(totals, state.planner.applyDiscount);
+    renderBundleTable(bundle, state.planner.applyDiscount);
+
+    // Prefill CTAs (event-length list)
+    setPrefillCtas(bundle, $("openPrefillByobBtn"), $("copyPrefillLinkBtn"), $("prefillNote"));
+
+    const addBtn = $("addBundleToCartBtn");
+    if (addBtn) {
+      addBtn.onclick = () => {
+        window.location.href = buildByobPrefillUrl(bundle);
+      };
+    }
+
+    // Schedule view
+    renderScheduleView(targets, plan, totals);
+
+    // Bundle Builder view (30d)
+    const hoursAdj = renderBundle30Summary(targets, plan);
+    const monthlyTotals = computeBundleTotals(plan.perHour, hoursAdj);
+    const bundle30 = computeBundlePacks(monthlyTotals, state.bundle.applyDiscount);
+    renderBundle30Packs(bundle30, state.bundle.applyDiscount);
+
+    // Prefill CTA (30-day)
+    setPrefillCtas(bundle30, $("openPrefillByobBtn30"), null, $("bundle30CtaNote"));
+
+    const addBtn30 = $("addBundleToCartBtn30");
+    if (addBtn30) {
+      addBtn30.onclick = () => {
+        window.location.href = buildByobPrefillUrl(bundle30);
+      };
+    }
+  }
+
+  // ----- Init -----
+  function init() {
+    loadLead();
+    wireNav();
+    wireTheme();
+    wirePlannerInputs();
+    wireBundleInputs();
+    setStep(0);
+    applyLockState();
+    render();
+  }
+
+  init();
+})();
+
+</script>
+</body>
+</html>
